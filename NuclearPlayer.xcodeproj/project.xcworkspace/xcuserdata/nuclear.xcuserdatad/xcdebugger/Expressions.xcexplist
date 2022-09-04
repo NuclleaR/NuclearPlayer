@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "TrackInfo.init(url:):audio.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "item.commonKey">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ToolbarView.handleFile(result:):ToolbarView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in LocalLibraryViewModel.init(context:):LocalLibraryViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in LocalLibraryViewModel.fetchTracks():LocalLibraryViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "fileManager.fileExists(atPath: track.url!.path)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LocalLibraryViewModel.saveData(_:):LocalLibraryViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.tracks">
+            </PersistentString>
+            <PersistentString
+               value = "self.tracks[0].url">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LocalLibraryViewModel.addToQueue(url:):LocalLibraryViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tracks.count">
+            </PersistentString>
+            <PersistentString
+               value = "tracks[0].url">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "getSALockScreenInfo(url:):audio.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
