@@ -14,7 +14,7 @@ import SwiftAudioPlayer
 // TODO subscribe to SAPlayer.shared.prettyDuration
 class NowPlayingViewModel: ObservableObject {
     @Published private(set) var track: Track?
-    @Published private(set) var playlist: Playlist?
+//    @Published private(set) var playlist: Playlist?
     @Published private(set) var trackInfo: TrackInfo?
     @Published private(set) var isPlaying: Bool = false
     @Published private(set) var isPlaylistOpened: Bool = false

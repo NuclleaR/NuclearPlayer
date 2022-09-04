@@ -18,8 +18,8 @@ struct PlaylistView: View {
 
     var body: some View {
         List {
-            ForEach(viewModel.tracks) { (item: Track) in
-                Text(item.title!)
+            ForEach(viewModel.tracks, id: \.id) { (item: Track) in
+                Text(item.title)
             }
         }
     }
@@ -27,7 +27,8 @@ struct PlaylistView: View {
 
 struct PlaylistView_Previews: PreviewProvider {
     static var previews: some View {
-        PlaylistView(viewModel: LocalLibraryViewModel.preview)
+//        PlaylistView(viewModel: LocalLibraryViewModel.preview)
+        PlaylistView()
             .previewLayout(.sizeThatFits)
 
     }

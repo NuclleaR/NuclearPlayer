@@ -47,7 +47,7 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for i in 0..<10 {
-            let newItem = Track(context: viewContext)
+            let newItem = Track()
             newItem.url = "/local/file-\(i).mp3"
             newItem.title = "Title \(i)"
         }

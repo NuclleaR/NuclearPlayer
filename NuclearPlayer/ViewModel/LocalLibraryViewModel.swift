@@ -9,18 +9,20 @@ import Foundation
 import Combine
 import SwiftAudioPlayer
 import CoreData
+import RealmSwift
 
 class LocalLibraryViewModel: ObservableObject {
     public static let shared: LocalLibraryViewModel = LocalLibraryViewModel()
 
-    private let context: NSManagedObjectContext
+    private let realm: Realm
 
     // MARK: - data fields
     @Published private(set) var tracks: [Track] = []
-    @Published private(set) var playlists: [Playlist] = []
+//    @Published private(set) var playlists: [Playlist] = []
 
-    private init(context: NSManagedObjectContext = PersistenceController.getContext()) {
-        self.context = context
+    private init(realm: Realm = RealmController.shared) {
+        // TODO add error if no realm
+        self.realm = realm
 
         fetchTracks()
         initDataFromStore()
@@ -32,38 +34,34 @@ class LocalLibraryViewModel: ObservableObject {
 extension LocalLibraryViewModel {
     fileprivate func fetchTracks() {
         let fileManager = FileManager.default
-        do {
-            let tracks = try context.fetch(Track.fetchRequest())
-            self.tracks = tracks.filter({ track in
-                guard let bookmarkData = track.bookmarkData else {
-                        // Delete track from storage if url not valid
-                        // context.delete(track)
-                    return false
-                }
-                let url = URLUtils.restoreURLFromData(bookmarkData: bookmarkData)
-                let isExists = fileManager.fileExists(atPath: url.path)
 
-                if !isExists {
-                        // Delete track from storage if not exists anymore
-                        // context.delete(track)
-                }
-                return isExists
-            })
-                // try context.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
+        guard let tracksResult = Track.queryObjects() else { return }
+
+        self.tracks = tracksResult.filter({ track in
+            guard let bookmarkData = track.bookmarkData else {
+                    // Delete track from storage if url not valid
+                    // context.delete(track)
+                return false
+            }
+            let url = URLUtils.restoreURLFromData(bookmarkData: bookmarkData)
+            let isExists = fileManager.fileExists(atPath: url.path)
+
+            if !isExists {
+                    // Delete track from storage if not exists anymore
+                    // context.delete(track)
+            }
+            return isExists
+        })
     }
 
-    fileprivate func fetchPlaylists() {
-        do {
-            self.playlists = try context.fetch(Playlist.fetchRequest())
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
-    }
+//    fileprivate func fetchPlaylists() {
+//        do {
+//            self.playlists = try context.fetch(Playlist.fetchRequest())
+//        } catch {
+//            let nsError = error as NSError
+//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+//        }
+//    }
 }
 
 // MARK: - Manage queue
@@ -100,9 +98,12 @@ extension LocalLibraryViewModel {
     private func saveData(_ url: URL) {
         let isStartAccess = url.startAccessingSecurityScopedResource()
 
-        _ = Track.add(url: url, context: context)
-        self.fetchTracks()
-        addSavedToQueue(url: url)
+        let isSaved = Track.add(url: url)
+        if isSaved {
+            // TODO do we need fetch?
+            self.fetchTracks()
+            addSavedToQueue(url: url)
+        }
         if isStartAccess {
             url.stopAccessingSecurityScopedResource()
         }
@@ -131,6 +132,6 @@ extension LocalLibraryViewModel {
 // MARK: - debug data
 extension LocalLibraryViewModel {
 #if DEBUG
-    public static let preview: LocalLibraryViewModel = LocalLibraryViewModel(context: PersistenceController.preview.container.viewContext)
+//    public static let preview: LocalLibraryViewModel = LocalLibraryViewModel(realm: PersistenceController.preview.container.viewContext)
 #endif
 }
