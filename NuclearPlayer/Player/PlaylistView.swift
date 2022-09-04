@@ -27,9 +27,7 @@ struct PlaylistView: View {
 
 struct PlaylistView_Previews: PreviewProvider {
     static var previews: some View {
-//        PlaylistView(viewModel: LocalLibraryViewModel.preview)
-        PlaylistView()
+        PlaylistView(viewModel: LocalLibraryViewModel.preview)
             .previewLayout(.sizeThatFits)
-
     }
 }

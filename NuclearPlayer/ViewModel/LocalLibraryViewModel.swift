@@ -12,7 +12,7 @@ import CoreData
 import RealmSwift
 
 class LocalLibraryViewModel: ObservableObject {
-    public static let shared: LocalLibraryViewModel = LocalLibraryViewModel()
+    public static let shared: LocalLibraryViewModel = LocalLibraryViewModel(realm: RealmController.shared)
 
     private let realm: Realm
 
@@ -20,8 +20,7 @@ class LocalLibraryViewModel: ObservableObject {
     @Published private(set) var tracks: [Track] = []
 //    @Published private(set) var playlists: [Playlist] = []
 
-    private init(realm: Realm = RealmController.shared) {
-        // TODO add error if no realm
+    private init(realm: Realm) {
         self.realm = realm
 
         fetchTracks()
@@ -35,9 +34,13 @@ extension LocalLibraryViewModel {
     fileprivate func fetchTracks() {
         let fileManager = FileManager.default
 
-        guard let tracksResult = Track.queryObjects() else { return }
+        guard let tracksResult = Track.queryObjects(realm: realm) else { return }
 
         self.tracks = tracksResult.filter({ track in
+            #if DEBUG
+            return true
+            #endif
+
             guard let bookmarkData = track.bookmarkData else {
                     // Delete track from storage if url not valid
                     // context.delete(track)
@@ -129,9 +132,9 @@ extension LocalLibraryViewModel {
     }
 }
 
+#if DEBUG
 // MARK: - debug data
 extension LocalLibraryViewModel {
-#if DEBUG
-//    public static let preview: LocalLibraryViewModel = LocalLibraryViewModel(realm: PersistenceController.preview.container.viewContext)
-#endif
+    public static let preview: LocalLibraryViewModel = LocalLibraryViewModel(realm: RealmController.previewRealm)
 }
+#endif

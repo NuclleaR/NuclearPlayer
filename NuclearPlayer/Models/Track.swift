@@ -17,6 +17,10 @@ class Track: Object {
 
     @Persisted var bookmarkData: Data?
     @Persisted var url: String = ""
+
+    #if DEBUG
+    var isPreview: Bool = false
+    #endif
 }
 
 extension Track {
@@ -39,7 +43,7 @@ extension Track {
         return track
     }
 
-    static func add(url: URL) -> Bool {
+    static func add(url: URL, ctrl: RealmController = RealmController.instance) -> Bool {
         // make sure that files in storage are uniq
         // try go get object
         let obj = RealmController.shared.objects(Track.self).where { track in
@@ -51,12 +55,12 @@ extension Track {
         }
 
         let track = Track.create(url: url)
-        RealmController.instance.save(object: track)
+        ctrl.save(object: track)
 
         return true
     }
 
-    static func queryObjects() -> Results<Track>? {
-        return RealmController.shared.objects(Track.self)
+    static func queryObjects(realm: Realm) -> Results<Track>? {
+        return realm.objects(Track.self)
     }
 }
