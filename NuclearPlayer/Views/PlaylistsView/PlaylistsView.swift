@@ -8,12 +8,26 @@
 import SwiftUI
 
 struct PlaylistsView: View {
-    @StateObject var viewModel = LocalLibraryViewModel.shared
+    @EnvironmentObject var viewModel: LocalLibraryViewModel
 
     var body: some View {
-        VStack {
-            
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            List {
+                ForEach(viewModel.playlists, id: \.id) { playlist in
+                    NavigationLink(destination: Text("View"), label: {
+                        HStack {
+                            Text(playlist.title)
+                            Spacer()
+                            Text(String(playlist.tracks.count))
+                        }
+                    })
+                }
+            }
+            .listStyle(.plain)
+            .navigationTitle("Playlists")
+            .navigationBarItems(trailing:AddPlaylistVew({ title in
+                viewModel.addToLibrary(title: title)
+            }))
         }
     }
 }
@@ -21,5 +35,7 @@ struct PlaylistsView: View {
 struct PlaylistsView_Previews: PreviewProvider {
     static var previews: some View {
         PlaylistsView()
+            .environmentObject(LocalLibraryViewModel.preview)
+            .previewLayout(.sizeThatFits)
     }
 }

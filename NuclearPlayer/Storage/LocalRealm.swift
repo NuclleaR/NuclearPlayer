@@ -30,10 +30,12 @@ class RealmController {
         } catch {
             fatalError("Error opening realm: \(error.localizedDescription)")
         }
+        #if DEBUG
+        print("REALM URL", realm.configuration.fileURL as Any)
+        #endif
     }
 
     func save(object: Object) {
-
         // TODO Prepare to handle exceptions.
         do {
             // Open a thread-safe transaction.
@@ -47,30 +49,83 @@ class RealmController {
         }
     }
 
-    #if DEBUG
-    static var previewRealm: Realm {
+    func remove(object: Object) {
+        // TODO Prepare to handle exceptions.
+        do {
+            // Open a thread-safe transaction.
+            try realm.write {
+                realm.delete(object)
+            }
+        } catch let error as NSError {
+            // Failed to write to realm.
+            // ... Handle error ...
+            print(error)
+        }
+    }
+
+    func removeUncommited(object: Object) {
+        realm.beginWrite()
+        realm.delete(object)
+    }
+}
+
+#if DEBUG
+extension RealmController {
+    static let tracks: [Track] = {
+        var tracks: [Track] = []
+        for i in 0..<10 {
+            let newItem = Track()
+            newItem.url = "/local/file-\(i).mp3"
+            newItem.title = "Title \(i)"
+//            newItem.artist = "Artist \(i)"
+            newItem.isPreview = true
+
+            tracks.append(newItem)
+        }
+        return tracks
+    }()
+
+    static var previewRealm: RealmController {
         let identifier = "previewRealm"
         let ctrl = RealmController(inMemoryIdentifier: identifier)
 
         do {
-            let realmObjects = ctrl.realm.objects(Track.self)
-            if realmObjects.count == 1 {
-                return ctrl.realm
+            let tracks = ctrl.realm.objects(Track.self)
+            let playlists = ctrl.realm.objects(Playlist.self)
+
+            if tracks.count > 0 && playlists.count > 0 {
+                return ctrl
             } else {
                 try ctrl.realm.write {
                     for i in 0..<10 {
                         let newItem = Track()
                         newItem.url = "/local/file-\(i).mp3"
                         newItem.title = "Title \(i)"
+                        newItem.artist = "Artist \(i)"
                         newItem.isPreview = true
                         ctrl.realm.add(newItem)
                     }
                 }
-                return ctrl.realm
+
+                try ctrl.realm.write {
+                    let tracks = ctrl.realm.objects(Track.self)
+                    for i in 0..<5 {
+
+                        let newItem = Playlist()
+                        newItem.title = "Playlist \(i)"
+                        newItem.tracks = List<Track>()
+                        for _ in 1...3 {
+                            newItem.tracks.append(tracks[Int.random(in: 0..<tracks.count)])
+                        }
+                        ctrl.realm.add(newItem)
+                    }
+                }
+
+                return ctrl
             }
         } catch let error {
             fatalError("Can't bootstrap item data: \(error.localizedDescription)")
         }
     }
-    #endif
 }
+#endif

@@ -43,7 +43,7 @@ extension Track {
         return track
     }
 
-    static func add(url: URL, ctrl: RealmController = RealmController.instance) -> Bool {
+    static func add(url: URL, ctrl: RealmController = RealmController.instance) -> (Bool, Track?) {
         // make sure that files in storage are uniq
         // try go get object
         let obj = RealmController.shared.objects(Track.self).where { track in
@@ -51,13 +51,13 @@ extension Track {
         }.first
 
         if obj != nil {
-            return false
+            return (false, nil)
         }
 
         let track = Track.create(url: url)
         ctrl.save(object: track)
 
-        return true
+        return (true, track)
     }
 
     static func queryObjects(realm: Realm) -> Results<Track>? {

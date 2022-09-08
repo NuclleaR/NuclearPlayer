@@ -14,15 +14,15 @@
          contextName = "ToolbarView.handleFile(result:):ToolbarView.swift">
       </ContextState>
       <ContextState
-         contextName = "closure #1 in LocalLibraryViewModel.init(context:):LocalLibraryViewModel.swift">
-      </ContextState>
-      <ContextState
          contextName = "closure #1 in LocalLibraryViewModel.fetchTracks():LocalLibraryViewModel.swift">
          <PersistentStrings>
             <PersistentString
                value = "fileManager.fileExists(atPath: track.url!.path)">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in LocalLibraryViewModel.init(context:):LocalLibraryViewModel.swift">
       </ContextState>
       <ContextState
          contextName = "LocalLibraryViewModel.saveData(_:):LocalLibraryViewModel.swift">
@@ -32,6 +32,40 @@
             </PersistentString>
             <PersistentString
                value = "self.tracks[0].url">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LocalLibraryViewModel.removeFromLibrary(track:):LocalLibraryViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "player.playedQueue.last">
+            </PersistentString>
+            <PersistentString
+               value = "player.playedQueue">
+            </PersistentString>
+            <PersistentString
+               value = "tracks">
+            </PersistentString>
+            <PersistentString
+               value = "player.playedQueue.last?.url.path">
+            </PersistentString>
+            <PersistentString
+               value = "player.audioQueued">
+            </PersistentString>
+            <PersistentString
+               value = "track.url">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in RealmController.remove(object:):LocalRealm.swift">
+      </ContextState>
+      <ContextState
+         contextName = "RealmController.remove(object:):LocalRealm.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "object.objectSchema.primaryKeyProperty">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

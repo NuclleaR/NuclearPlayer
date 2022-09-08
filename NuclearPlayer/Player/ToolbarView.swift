@@ -39,7 +39,7 @@ struct ToolbarView: View {
         isImporting = false
         do {
             guard let selectedFile: URL = try result.get().first else { return }
-            LocalLibraryViewModel.shared.addToQueue(selectedFile)
+            LocalLibraryViewModel.shared.addToLibrary(url: selectedFile)
         } catch {
                 // Handle failure.
             print("Unable to read file contents")
