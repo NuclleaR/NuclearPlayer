@@ -114,8 +114,6 @@ extension RealmController {
                 tracks.forEach { track in
                     ctrl.realm.add(track)
                 }
-            }
-            try ctrl.realm.write {
                 playlists.forEach { playlist in
                     ctrl.realm.add(playlist)
                 }

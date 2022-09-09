@@ -63,6 +63,19 @@ extension LocalLibraryViewModel {
 
 // MARK: - Manage Library
 extension LocalLibraryViewModel {
+    func handleFiles(result: Result<[URL], Error>) {
+        do {
+            let files = try result.get()
+            files.forEach { url in
+                addToLibrary(url: url)
+            }
+        } catch {
+            // Handle failure.
+            print("Unable to read file contents")
+            print(error.localizedDescription)
+        }
+    }
+
     func addToLibrary(url: URL) {
         let isStartAccess = url.startAccessingSecurityScopedResource()
 

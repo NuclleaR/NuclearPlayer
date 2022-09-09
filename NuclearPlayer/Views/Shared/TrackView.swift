@@ -30,8 +30,15 @@ struct TrackView: View {
 }
 
 struct TrackView_Previews: PreviewProvider {
+    static var track: Track = {
+        let track = Track()
+        track.title = "Test title"
+        track.artist = "Test Artist"
+        return track
+    }()
+
     static var previews: some View {
-        TrackView(track: RealmController.getTrack())
+        TrackView(track: TrackView_Previews.track)
             .previewLayout(.sizeThatFits)
     }
 }

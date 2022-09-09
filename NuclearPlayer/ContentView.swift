@@ -11,15 +11,11 @@ struct ContentView: View {
     @StateObject var libraryViewModel = LocalLibraryViewModel.shared
     @StateObject var nowPlayingViewModel = NowPlayingViewModel.shared
 
-//    var body: some View {
-//        PlayerView()
-//    }
-
     var body: some View {
         TabView {
-            PlayerView()
+            LibraryView()
                 .tabItem {
-                    Label("Player", systemImage: "playpause.fill")
+                    Label("Library", systemImage: "list.bullet")
                 }.tag(1)
             PlaylistsView()
                 .tabItem {

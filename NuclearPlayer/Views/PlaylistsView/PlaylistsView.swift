@@ -15,7 +15,9 @@ struct PlaylistsView: View {
             List {
                 ForEach(viewModel.playlists, id: \.self) { playlist in
                     NavigationLink(
-                        destination: PlaylistView(playlist: playlist),
+                        destination:
+                            PlaylistView(playlist: playlist)
+                            .navigationTitle(playlist.title),
                         label: {
                             HStack {
                                 Text(playlist.title)
@@ -26,9 +28,6 @@ struct PlaylistsView: View {
                         // .listRowBackground(Color.clear)
                 }
             }
-                // .background(
-                //    getAppBackground()
-                // )
             .listStyle(.plain)
             .navigationTitle("Playlists")
             .toolbar(content: {
@@ -48,6 +47,6 @@ struct PlaylistsView_Previews: PreviewProvider {
     static var previews: some View {
         PlaylistsView()
             .environmentObject(LocalLibraryViewModel.preview)
-            .previewLayout(.sizeThatFits)
+            .previewLayout(.fixed(width: 390.0, height: 500.0))
     }
 }

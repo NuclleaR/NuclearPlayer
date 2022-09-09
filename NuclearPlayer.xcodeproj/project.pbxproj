@@ -36,6 +36,8 @@
 		0666FE0528CA5B9A00728634 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE0428CA5B9900728634 /* Playlist.swift */; };
 		0666FE0728CA66CB00728634 /* AddPlaylistVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE0628CA66CB00728634 /* AddPlaylistVew.swift */; };
 		0666FE0C28CB444F00728634 /* AppBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE0B28CB444F00728634 /* AppBackground.swift */; };
+		0666FE1028CB926100728634 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE0F28CB926100728634 /* LibraryView.swift */; };
+		0666FE1228CB9BD800728634 /* ImportMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE1128CB9BD800728634 /* ImportMedia.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +66,8 @@
 		0666FE0428CA5B9900728634 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		0666FE0628CA66CB00728634 /* AddPlaylistVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaylistVew.swift; sourceTree = "<group>"; };
 		0666FE0B28CB444F00728634 /* AppBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBackground.swift; sourceTree = "<group>"; };
+		0666FE0F28CB926100728634 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		0666FE1128CB9BD800728634 /* ImportMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportMedia.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +189,8 @@
 		0666FDE728C5070E00728634 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0666FE1328CBA13200728634 /* Shared */,
+				0666FE0E28CB922200728634 /* LibraryView */,
 				0666FDE828C5074A00728634 /* PlaylistsView */,
 			);
 			path = Views;
@@ -195,7 +201,6 @@
 			children = (
 				061650B328BEBC20003726D7 /* PlaylistView.swift */,
 				0666FDEB28C5077300728634 /* PlaylistsView.swift */,
-				0666FE0228C5443400728634 /* TrackView.swift */,
 				0666FE0628CA66CB00728634 /* AddPlaylistVew.swift */,
 			);
 			path = PlaylistsView;
@@ -205,8 +210,25 @@
 			isa = PBXGroup;
 			children = (
 				0666FE0B28CB444F00728634 /* AppBackground.swift */,
+				0666FE1128CB9BD800728634 /* ImportMedia.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		0666FE0E28CB922200728634 /* LibraryView */ = {
+			isa = PBXGroup;
+			children = (
+				0666FE0F28CB926100728634 /* LibraryView.swift */,
+			);
+			path = LibraryView;
+			sourceTree = "<group>";
+		};
+		0666FE1328CBA13200728634 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				0666FE0228C5443400728634 /* TrackView.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,6 +317,7 @@
 				0616506428BE277E003726D7 /* ContentView.swift in Sources */,
 				0666FDFF28C512A000728634 /* Track.swift in Sources */,
 				0616507D28BE50D6003726D7 /* LocalLibraryViewModel.swift in Sources */,
+				0666FE1028CB926100728634 /* LibraryView.swift in Sources */,
 				061650D528C0F587003726D7 /* ArtworkView.swift in Sources */,
 				061650D128C0E63B003726D7 /* NowPlayingViewModel.swift in Sources */,
 				061650CD28BF95ED003726D7 /* audio.swift in Sources */,
@@ -314,6 +337,7 @@
 				0666FE0C28CB444F00728634 /* AppBackground.swift in Sources */,
 				0666FE0128C5177700728634 /* LocalRealm.swift in Sources */,
 				0666FE0528CA5B9A00728634 /* Playlist.swift in Sources */,
+				0666FE1228CB9BD800728634 /* ImportMedia.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
