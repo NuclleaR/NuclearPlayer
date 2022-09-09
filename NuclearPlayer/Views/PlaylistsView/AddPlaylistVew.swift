@@ -31,19 +31,24 @@ struct AddPlaylistVew: View {
                     TextField("Title", text: $title)
                 }
                 .navigationTitle("Add playlist")
-                .navigationBarItems(
-                    leading: Button("Cancel") {
-                        showingPopover.toggle()
-                    }.foregroundColor(.red),
-                    trailing: Button("Save") {
-                        if !title.isEmpty {
-                            onSave(title)
+                .toolbar(content: {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Cancel") {
                             showingPopover.toggle()
-                            title = ""
-                        }
-                    }.font(.body.weight(.bold)))
+                        }.foregroundColor(.red)
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Save") {
+                            if !title.isEmpty {
+                                onSave(title)
+                                showingPopover.toggle()
+                                title = ""
+                            }
+                        }.font(.body.weight(.bold))
+                    }
+                })
                 .navigationBarTitleDisplayMode(.inline)
-            }
+            }.navigationViewStyle(.stack)
         }
     }
 }

@@ -14,12 +14,10 @@ import SwiftUI
 
 @main
 struct NuclearPlayerApp: App {
-//    let persistenceController = PersistenceController.shared
-
     var body: some Scene {
         WindowGroup {
             ContentView()
-//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environment(\.realm, RealmController.shared)
         }
     }
 }

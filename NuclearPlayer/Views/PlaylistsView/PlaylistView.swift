@@ -10,15 +10,12 @@ import CoreData
 import SwiftAudioPlayer
 
 struct PlaylistView: View {
-    @StateObject private var viewModel: LocalLibraryViewModel
-
-    init(viewModel: LocalLibraryViewModel = LocalLibraryViewModel.shared) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+    @EnvironmentObject var viewModel: LocalLibraryViewModel
+    var playlist: Playlist
 
     var body: some View {
         List {
-            ForEach(viewModel.tracks, id: \.id) { (item: Track) in
+            ForEach(playlist.tracks, id: \.self) { item in
                 TrackView(track: item)
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                         Button(role: ButtonRole.destructive) {
@@ -40,8 +37,9 @@ struct PlaylistView: View {
 struct PlaylistView_Previews: PreviewProvider {
     static var previews: some View {
         PlaylistView(
-            viewModel: LocalLibraryViewModel.preview
+            playlist: RealmController.getPlaylist()
         )
+            .environmentObject(LocalLibraryViewModel.preview)
             .previewLayout(.sizeThatFits)
     }
 }

@@ -8,20 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var libraryViewModel = LocalLibraryViewModel.shared
+    @StateObject var nowPlayingViewModel = NowPlayingViewModel.shared
+
 //    var body: some View {
 //        PlayerView()
 //    }
+
     var body: some View {
         TabView {
             PlayerView()
                 .tabItem {
                     Label("Player", systemImage: "playpause.fill")
                 }.tag(1)
-            Text("Tab Content 2")
+            PlaylistsView()
                 .tabItem {
                     Label("Playlists", systemImage: "music.note.list")
                 }.tag(2)
         }
+        .environmentObject(libraryViewModel)
+        .environmentObject(nowPlayingViewModel)
     }
 }
 

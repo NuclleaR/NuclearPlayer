@@ -31,7 +31,7 @@ struct TrackView: View {
 
 struct TrackView_Previews: PreviewProvider {
     static var previews: some View {
-        TrackView(track: RealmController.tracks.last!)
+        TrackView(track: RealmController.getTrack())
             .previewLayout(.sizeThatFits)
     }
 }

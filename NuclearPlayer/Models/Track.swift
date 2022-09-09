@@ -17,10 +17,6 @@ class Track: Object {
 
     @Persisted var bookmarkData: Data?
     @Persisted var url: String = ""
-
-    #if DEBUG
-    var isPreview: Bool = false
-    #endif
 }
 
 extension Track {

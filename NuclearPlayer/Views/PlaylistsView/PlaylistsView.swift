@@ -1,9 +1,9 @@
-//
-//  PlaylistsView.swift
-//  NuclearPlayer
-//
-//  Created by Sergey Koreniuk on 04.09.2022.
-//
+    //
+    //  PlaylistsView.swift
+    //  NuclearPlayer
+    //
+    //  Created by Sergey Koreniuk on 04.09.2022.
+    //
 
 import SwiftUI
 
@@ -13,22 +13,34 @@ struct PlaylistsView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(viewModel.playlists, id: \.id) { playlist in
-                    NavigationLink(destination: Text("View"), label: {
-                        HStack {
-                            Text(playlist.title)
-                            Spacer()
-                            Text(String(playlist.tracks.count))
-                        }
-                    })
+                ForEach(viewModel.playlists, id: \.self) { playlist in
+                    NavigationLink(
+                        destination: PlaylistView(playlist: playlist),
+                        label: {
+                            HStack {
+                                Text(playlist.title)
+                                Spacer()
+                                Text(String(playlist.tracks.count))
+                            }
+                        })
+                        // .listRowBackground(Color.clear)
                 }
             }
+                // .background(
+                //    getAppBackground()
+                // )
             .listStyle(.plain)
             .navigationTitle("Playlists")
-            .navigationBarItems(trailing:AddPlaylistVew({ title in
-                viewModel.addToLibrary(title: title)
-            }))
-        }
+            .toolbar(content: {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    AddPlaylistVew(self.addToLibrary)
+                }
+            })
+        }.navigationViewStyle(.stack)
+    }
+
+    private func addToLibrary(title: String) {
+        viewModel.addToLibrary(title: title)
     }
 }
 

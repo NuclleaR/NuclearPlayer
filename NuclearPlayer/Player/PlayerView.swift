@@ -21,11 +21,11 @@ struct PlayerView: View {
     var body: some View {
         VStack {
             ToolbarView()
-            if nowPlaying.isPlaylistOpened {
-                PlaylistView()
-            } else {
-                SongTitleView()
-            }
+//            if nowPlaying.isPlaylistOpened {
+//                PlaylistView()
+//            } else {
+//            }
+            SongTitleView()
             ControlsView()
         }.background(
             LinearGradient(

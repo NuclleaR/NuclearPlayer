@@ -70,62 +70,69 @@ class RealmController {
 }
 
 #if DEBUG
-extension RealmController {
-    static let tracks: [Track] = {
-        var tracks: [Track] = []
-        for i in 0..<10 {
-            let newItem = Track()
-            newItem.url = "/local/file-\(i).mp3"
-            newItem.title = "Title \(i)"
-//            newItem.artist = "Artist \(i)"
-            newItem.isPreview = true
+fileprivate func getTracks() -> [Track] {
+    var tracks = [Track]()
+    for i in 0..<10 {
+        let newItem = Track()
+        newItem.url = "/local/file-\(i).mp3"
+        newItem.title = "Title \(i)"
+        newItem.artist = "Artist \(i)"
 
-            tracks.append(newItem)
+        tracks.append(newItem)
+    }
+    return tracks
+}
+
+fileprivate func getPlaylistsWithTracks() -> ([Playlist], [Track]) {
+    let tracks = getTracks()
+
+    var playlists =  [Playlist]()
+
+    for i in 1...5 {
+        let playlist = Playlist()
+        playlist.title = "Playlist \(i)"
+        playlist.tracks = List<Track>()
+        for _ in 1...Int.random(in: 1...6) {
+            playlist.tracks.append(tracks[Int.random(in: 0..<tracks.count - 1)])
         }
-        return tracks
-    }()
 
-    static var previewRealm: RealmController {
+        playlists.append(playlist)
+    }
+
+    return (playlists, tracks)
+}
+
+extension RealmController {
+    static var previewRealm: RealmController = {
         let identifier = "previewRealm"
         let ctrl = RealmController(inMemoryIdentifier: identifier)
 
+        let (playlists, tracks) = getPlaylistsWithTracks()
+
         do {
-            let tracks = ctrl.realm.objects(Track.self)
-            let playlists = ctrl.realm.objects(Playlist.self)
-
-            if tracks.count > 0 && playlists.count > 0 {
-                return ctrl
-            } else {
-                try ctrl.realm.write {
-                    for i in 0..<10 {
-                        let newItem = Track()
-                        newItem.url = "/local/file-\(i).mp3"
-                        newItem.title = "Title \(i)"
-                        newItem.artist = "Artist \(i)"
-                        newItem.isPreview = true
-                        ctrl.realm.add(newItem)
-                    }
+            try ctrl.realm.write {
+                tracks.forEach { track in
+                    ctrl.realm.add(track)
                 }
-
-                try ctrl.realm.write {
-                    let tracks = ctrl.realm.objects(Track.self)
-                    for i in 0..<5 {
-
-                        let newItem = Playlist()
-                        newItem.title = "Playlist \(i)"
-                        newItem.tracks = List<Track>()
-                        for _ in 1...3 {
-                            newItem.tracks.append(tracks[Int.random(in: 0..<tracks.count)])
-                        }
-                        ctrl.realm.add(newItem)
-                    }
-                }
-
-                return ctrl
             }
+            try ctrl.realm.write {
+                playlists.forEach { playlist in
+                    ctrl.realm.add(playlist)
+                }
+            }
+
+            return ctrl
         } catch let error {
             fatalError("Can't bootstrap item data: \(error.localizedDescription)")
         }
+    }()
+
+    static func getPlaylist() -> Playlist {
+        return previewRealm.realm.objects(Playlist.self).first ?? Playlist()
+    }
+
+    static func getTrack() -> Track {
+        return previewRealm.realm.objects(Track.self).first!
     }
 }
 #endif
