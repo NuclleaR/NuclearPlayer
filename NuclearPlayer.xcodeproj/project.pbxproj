@@ -117,7 +117,6 @@
 				0666FE0A28CB440200728634 /* Components */,
 				0666FDD428C2029700728634 /* Ext */,
 				061650BD28BF8D39003726D7 /* Models */,
-				0616507128BE28D1003726D7 /* Player */,
 				0616506728BE2781003726D7 /* Preview Content */,
 				0616508628BE715E003726D7 /* Storage */,
 				061650CB28BF95DE003726D7 /* Utils */,
@@ -138,7 +137,7 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		0616507128BE28D1003726D7 /* Player */ = {
+		0616507128BE28D1003726D7 /* PlayerView */ = {
 			isa = PBXGroup;
 			children = (
 				0616506F28BE2869003726D7 /* PlayerView.swift */,
@@ -147,7 +146,7 @@
 				061650D228C0ECAD003726D7 /* SongTitleView.swift */,
 				061650D428C0F587003726D7 /* ArtworkView.swift */,
 			);
-			path = Player;
+			path = PlayerView;
 			sourceTree = "<group>";
 		};
 		0616507B28BE50C4003726D7 /* ViewModel */ = {
@@ -201,6 +200,7 @@
 		0666FDE728C5070E00728634 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0616507128BE28D1003726D7 /* PlayerView */,
 				0666FE1328CBA13200728634 /* Shared */,
 				0666FE0E28CB922200728634 /* LibraryView */,
 				0666FDE828C5074A00728634 /* PlaylistsView */,
