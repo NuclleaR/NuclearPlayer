@@ -14,7 +14,7 @@ class Playlist: Object {
     @Persisted var tracks: List<Track>
 }
 
-extension Playlist {
+extension Playlist: Identifiable {
     static func add(_ title: String, ctrl: RealmController = RealmController.instance) -> (Bool, Playlist?) {
         // make sure that playlist name uniq
         // try go get object

@@ -20,15 +20,13 @@ class LocalLibraryViewModel: ObservableObject {
     // MARK: - data fields
     @Published private(set) var tracks: [Track] = []
     @Published private(set) var playlists: [Playlist] = []
+    @Published var isImporting = false
 
     private init(realmCtrl: RealmController) {
         self.realmCtrl = realmCtrl
 
         fetchTracks()
         fetchPlaylists()
-
-        // Initialize player
-        initDataFromStore()
     }
 }
 
@@ -61,7 +59,7 @@ extension LocalLibraryViewModel {
     }
 }
 
-// MARK: - Manage Library
+// MARK: - Manage Library, Persist the data
 extension LocalLibraryViewModel {
     func handleFiles(result: Result<[URL], Error>) {
         do {
@@ -98,6 +96,16 @@ extension LocalLibraryViewModel {
         }
     }
 
+    func removePlaylistFromLibrary(indexSet: IndexSet) {
+        let removed = self.playlists.removeObjects(at: indexSet)
+        // remove after animation
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            removed.forEach { object in
+//                self.realmCtrl.remove(object: object)
+//            }
+//        }
+    }
+
     func removeFromLibrary(track: Track) {
         // Clear tracks
         tracks.removeAll(where: { $0.id == track.id })
@@ -113,9 +121,14 @@ extension LocalLibraryViewModel {
         }
     }
 
-    func removeFromStorage(track: Track) {
+    func removeFromLibrary(playlist: Playlist) {
+        playlists.removeAll(where: { $0.id == playlist.id })
+        // TODO Check if playlist now playing
+    }
+
+    func removeFromStorage(_ obj: Object) {
         // Remove item from realm
-        realmCtrl.remove(object: track)
+        realmCtrl.remove(object: obj)
     }
 
     private func addSavedToQueue(url: URL) {
@@ -128,7 +141,7 @@ extension LocalLibraryViewModel {
     }
 }
 
-// MARK: - Persist data
+// MARK: - Init player
 extension LocalLibraryViewModel {
     private func initDataFromStore() {
         self.tracks.enumerated().forEach { (index, track) in
@@ -156,3 +169,12 @@ extension LocalLibraryViewModel {
     public static let preview: LocalLibraryViewModel = LocalLibraryViewModel(realmCtrl: RealmController.previewRealm)
 }
 #endif
+
+extension Array where Element: Object {
+    mutating func removeObjects(at indexSet: IndexSet) -> [Object] {
+        return indexSet.reduce(into: [Object]()) { partialResult, index in
+            let element = self.remove(at: index)
+            partialResult.append(element)
+        }
+    }
+}

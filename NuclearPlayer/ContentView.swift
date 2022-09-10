@@ -24,6 +24,12 @@ struct ContentView: View {
         }
         .environmentObject(libraryViewModel)
         .environmentObject(nowPlayingViewModel)
+        .fileImporter(
+            isPresented: $libraryViewModel.isImporting,
+            allowedContentTypes: [.audio],
+            allowsMultipleSelection: true,
+            onCompletion: libraryViewModel.handleFiles
+        )
     }
 }
 

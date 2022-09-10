@@ -37,7 +37,7 @@
 		0666FE0728CA66CB00728634 /* AddPlaylistVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE0628CA66CB00728634 /* AddPlaylistVew.swift */; };
 		0666FE0C28CB444F00728634 /* AppBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE0B28CB444F00728634 /* AppBackground.swift */; };
 		0666FE1028CB926100728634 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE0F28CB926100728634 /* LibraryView.swift */; };
-		0666FE1228CB9BD800728634 /* ImportMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE1128CB9BD800728634 /* ImportMedia.swift */; };
+		0666FE1528CC8C7700728634 /* OptionalExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE1428CC8C7700728634 /* OptionalExt.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,7 +67,7 @@
 		0666FE0628CA66CB00728634 /* AddPlaylistVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaylistVew.swift; sourceTree = "<group>"; };
 		0666FE0B28CB444F00728634 /* AppBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBackground.swift; sourceTree = "<group>"; };
 		0666FE0F28CB926100728634 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
-		0666FE1128CB9BD800728634 /* ImportMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportMedia.swift; sourceTree = "<group>"; };
+		0666FE1428CC8C7700728634 /* OptionalExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalExt.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				0666FDD528C202AE00728634 /* SAPlayerExt.swift */,
+				0666FE1428CC8C7700728634 /* OptionalExt.swift */,
 			);
 			path = Ext;
 			sourceTree = "<group>";
@@ -210,7 +211,6 @@
 			isa = PBXGroup;
 			children = (
 				0666FE0B28CB444F00728634 /* AppBackground.swift */,
-				0666FE1128CB9BD800728634 /* ImportMedia.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -333,11 +333,11 @@
 				0666FDEC28C5077300728634 /* PlaylistsView.swift in Sources */,
 				061650B228BE7829003726D7 /* Persistence.swift in Sources */,
 				061650CF28C00D15003726D7 /* ToolbarView.swift in Sources */,
+				0666FE1528CC8C7700728634 /* OptionalExt.swift in Sources */,
 				0616506228BE277E003726D7 /* NuclearPlayerApp.swift in Sources */,
 				0666FE0C28CB444F00728634 /* AppBackground.swift in Sources */,
 				0666FE0128C5177700728634 /* LocalRealm.swift in Sources */,
 				0666FE0528CA5B9A00728634 /* Playlist.swift in Sources */,
-				0666FE1228CB9BD800728634 /* ImportMedia.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

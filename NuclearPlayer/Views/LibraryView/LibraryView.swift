@@ -30,7 +30,11 @@ struct LibraryView: View {
             .navigationTitle("Library")
             .toolbar(content: {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    ImportMedia(handleFiles: library.handleFiles, allowsMultipleSelection: true)
+                    Button {
+                        library.isImporting = true
+                    } label: {
+                        Image(systemName: "square.and.arrow.down")
+                    }
                 }
             })
         }.navigationViewStyle(.stack)
