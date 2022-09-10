@@ -63,9 +63,18 @@ class RealmController {
         }
     }
 
-    func removeUncommited(object: Object) {
-        realm.beginWrite()
-        realm.delete(object)
+    func update(_ updater: () -> Void) {
+        // TODO Prepare to handle exceptions.
+        do {
+            // Open a thread-safe transaction.
+            try realm.write {
+                updater()
+            }
+        } catch let error as NSError {
+                // Failed to write to realm.
+                // ... Handle error ...
+            print(error)
+        }
     }
 }
 

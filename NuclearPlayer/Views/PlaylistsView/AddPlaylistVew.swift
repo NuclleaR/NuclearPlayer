@@ -7,15 +7,13 @@
 
 import SwiftUI
 
-typealias OnSave = (_ title: String) -> Void
-
 struct AddPlaylistVew: View {
     @State var showingPopover: Bool = false
     @State var title: String = ""
 
-    var onSave: OnSave
+    var onSave: ParamClosure<String>
 
-    init (_ onSave: @escaping OnSave) {
+    init (_ onSave: @escaping ParamClosure<String>) {
         self.onSave = onSave
     }
 

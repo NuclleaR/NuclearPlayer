@@ -38,6 +38,8 @@
 		0666FE0C28CB444F00728634 /* AppBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE0B28CB444F00728634 /* AppBackground.swift */; };
 		0666FE1028CB926100728634 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE0F28CB926100728634 /* LibraryView.swift */; };
 		0666FE1528CC8C7700728634 /* OptionalExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE1428CC8C7700728634 /* OptionalExt.swift */; };
+		0666FE1728CC998C00728634 /* AddToPlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE1628CC998B00728634 /* AddToPlaylistView.swift */; };
+		0666FE1928CCA66800728634 /* types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE1828CCA66800728634 /* types.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +70,8 @@
 		0666FE0B28CB444F00728634 /* AppBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBackground.swift; sourceTree = "<group>"; };
 		0666FE0F28CB926100728634 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		0666FE1428CC8C7700728634 /* OptionalExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalExt.swift; sourceTree = "<group>"; };
+		0666FE1628CC998B00728634 /* AddToPlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToPlaylistView.swift; sourceTree = "<group>"; };
+		0666FE1828CCA66800728634 /* types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = types.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +178,7 @@
 			children = (
 				061650CC28BF95ED003726D7 /* audio.swift */,
 				0666FDE528C4D56D00728634 /* urlUtils.swift */,
+				0666FE1828CCA66800728634 /* types.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -203,6 +208,7 @@
 				061650B328BEBC20003726D7 /* PlaylistView.swift */,
 				0666FDEB28C5077300728634 /* PlaylistsView.swift */,
 				0666FE0628CA66CB00728634 /* AddPlaylistVew.swift */,
+				0666FE1628CC998B00728634 /* AddToPlaylistView.swift */,
 			);
 			path = PlaylistsView;
 			sourceTree = "<group>";
@@ -327,11 +333,13 @@
 				061650D328C0ECAD003726D7 /* SongTitleView.swift in Sources */,
 				0666FDD628C202AE00728634 /* SAPlayerExt.swift in Sources */,
 				0666FE0728CA66CB00728634 /* AddPlaylistVew.swift in Sources */,
+				0666FE1728CC998C00728634 /* AddToPlaylistView.swift in Sources */,
 				0616507028BE2869003726D7 /* PlayerView.swift in Sources */,
 				0666FE0328C5443400728634 /* TrackView.swift in Sources */,
 				0666FDDD28C4B1AC00728634 /* Logger.swift in Sources */,
 				0666FDEC28C5077300728634 /* PlaylistsView.swift in Sources */,
 				061650B228BE7829003726D7 /* Persistence.swift in Sources */,
+				0666FE1928CCA66800728634 /* types.swift in Sources */,
 				061650CF28C00D15003726D7 /* ToolbarView.swift in Sources */,
 				0666FE1528CC8C7700728634 /* OptionalExt.swift in Sources */,
 				0616506228BE277E003726D7 /* NuclearPlayerApp.swift in Sources */,

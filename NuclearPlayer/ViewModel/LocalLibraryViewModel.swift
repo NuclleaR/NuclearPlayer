@@ -131,6 +131,27 @@ extension LocalLibraryViewModel {
         realmCtrl.remove(object: obj)
     }
 
+    func addToPlaylist(_ playlist: Playlist, track: Track) {
+        realmCtrl.update {
+            playlist.tracks.append(track)
+        }
+    }
+
+    func addToPlaylist(_ playlist: Playlist, tracks: Set<Track>) {
+        realmCtrl.update {
+            playlist.tracks = List<Track>()
+            playlist.tracks.append(objectsIn: tracks)
+        }
+//        let toUpdate = playlists.first { $0.id == playlist.id }!
+//        toUpdate.tracks = playlist.tracks
+    }
+
+    func removeFromPlaylist(_ playlist: Playlist, at indexSet: IndexSet) {
+        realmCtrl.update {
+            playlist.tracks.remove(atOffsets: indexSet)
+        }
+    }
+
     private func addSavedToQueue(url: URL) {
         if tracks.count < 2 {
             player.startSavedAudioWithPrevQueue(withSavedUrl: url, mediaInfo: getSALockScreenInfo(url: url))

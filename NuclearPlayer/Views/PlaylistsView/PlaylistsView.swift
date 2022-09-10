@@ -18,8 +18,7 @@ struct PlaylistsView: View {
                 ForEach(viewModel.playlists) { playlist in
                     NavigationLink(
                         destination:
-                            PlaylistView(playlist: playlist)
-                            .navigationTitle(playlist.title),
+                            PlaylistView(playlist: playlist),
                         label: {
                             HStack {
                                 Text(playlist.title)
