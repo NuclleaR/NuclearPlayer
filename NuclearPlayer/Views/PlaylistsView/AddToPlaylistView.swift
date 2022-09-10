@@ -25,7 +25,7 @@ struct AddToPlaylistView: View {
         if searchText.isEmpty {
             return Array(tracksViewModel.tracks)
         } else {
-            return tracksViewModel.tracks.filter { $0.title.contains(searchText) }
+            return tracksViewModel.tracks.filter { $0.title.lowercased().contains(searchText.lowercased()) }
         }
     }
 
