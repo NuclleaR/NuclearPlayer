@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var libraryViewModel = LocalLibraryViewModel.shared
-    @StateObject var nowPlayingViewModel = NowPlayingViewModel.shared
+    @EnvironmentObject var viewModel: TracksViewModel
 
     var body: some View {
         TabView {
@@ -22,13 +21,11 @@ struct ContentView: View {
                     Label("Playlists", systemImage: "music.note.list")
                 }.tag(2)
         }
-        .environmentObject(libraryViewModel)
-        .environmentObject(nowPlayingViewModel)
         .fileImporter(
-            isPresented: $libraryViewModel.isImporting,
+            isPresented: $viewModel.isImporting,
             allowedContentTypes: [.audio],
             allowsMultipleSelection: true,
-            onCompletion: libraryViewModel.handleFiles
+            onCompletion: viewModel.importFiles
         )
     }
 }

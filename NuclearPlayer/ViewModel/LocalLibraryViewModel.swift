@@ -33,7 +33,7 @@ class LocalLibraryViewModel: ObservableObject {
 // MARK: - fetch library data
 extension LocalLibraryViewModel {
     fileprivate func fetchTracks() {
-        guard let tracksResult = Track.queryObjects(realm: realmCtrl.realm) else { return }
+        let tracksResult = Track.queryObjects(realm: realmCtrl.realm)
         self.tracks = Array(tracksResult)
     }
 
@@ -54,7 +54,7 @@ extension LocalLibraryViewModel {
     }
 
     fileprivate func fetchPlaylists() {
-        guard let tracksResult = Playlist.queryObjects(realm: realmCtrl.realm) else { return }
+        let tracksResult = Playlist.queryObjects(realm: realmCtrl.realm)
         self.playlists = Array(tracksResult)
     }
 }
@@ -77,7 +77,7 @@ extension LocalLibraryViewModel {
     func addToLibrary(url: URL) {
         let isStartAccess = url.startAccessingSecurityScopedResource()
 
-        let (isSaved, track) = Track.add(url: url)
+        let (isSaved, track) = Track.add(url: url, ctrl: realmCtrl)
         if isSaved {
             self.tracks.append(track!)
             addSavedToQueue(url: url)

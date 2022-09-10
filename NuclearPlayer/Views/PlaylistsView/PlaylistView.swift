@@ -11,48 +11,68 @@ import SwiftAudioPlayer
 import RealmSwift
 
 struct PlaylistView: View {
-    @EnvironmentObject var viewModel: LocalLibraryViewModel
+    @EnvironmentObject var viewModel: PlaylistsViewModel
     @StateRealmObject var playlist: Playlist
 
     @State var showingPopover = false
 
     var body: some View {
-        List {
-            ForEach(playlist.tracks, id: \.id) { item in
+        VStack {
+            HStack {
+                Button(action: startPlay) {
+                    Image(systemName: "play.circle.fill")
+                        .font(.system(size: 48))
+                }.tint(.green)
+                Button(action: shufflePlay) {
+                    Label("Shuffle", systemImage: "shuffle")
+                }
+                .buttonStyle(.borderedProminent)
+                .clipShape(Capsule())
+                .tint(.green)
+                Spacer()
+            }.padding()
+            List(playlist.tracks.freeze()) { item in
                 TrackView(track: item)
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                         Button(role: .destructive) {
                             withAnimation {
-                                viewModel.removeFromLibrary(track: item)
+                                viewModel.removeTrackFromPlaylist(id: playlist.id, trackId: item.id)
                             }
                         } label: {
                             Image(systemName: "trash")
                         }
                     }
-                    //                    .onDisappear {
-                    //                        viewModel.removeFromStorage(item)
-                    //                    }
             }
+            .listStyle(.plain)
         }
-        .listStyle(.plain)
         .navigationTitle(playlist.title)
         .toolbar(content: {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    showingPopover.toggle()
-                }, label: {
+                Button(action: togglePopover, label: {
                     Image(systemName: "plus.circle.fill")
                 })
             }
         })
         .popover(isPresented: $showingPopover) {
-            AddToPlaylistView({ selected in
-                viewModel.addToPlaylist(playlist, tracks: selected)
-                showingPopover = false
-            }, {
-                showingPopover = false
-            })
+            AddToPlaylistView(handleSave, togglePopover)
         }
+    }
+
+    private func handleSave(_ selected: Set<Track>) {
+        viewModel.addTracksToPlaylist(id: playlist.id, tracks: selected)
+        showingPopover = false
+    }
+
+    private func togglePopover() {
+        showingPopover.toggle()
+    }
+
+    private func startPlay() {
+
+    }
+
+    private func shufflePlay() {
+
     }
 }
 

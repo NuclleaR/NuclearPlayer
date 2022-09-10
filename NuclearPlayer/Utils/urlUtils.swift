@@ -15,4 +15,12 @@ struct URLUtils {
         print("Please put \(String(describing: URL?.lastPathComponent)) on")
         return URL!
     }
+
+    static func withAcess(to url: URL, body: ParamClosure<URL>) {
+        let isStartAccess = url.startAccessingSecurityScopedResource()
+        body(url)
+        if isStartAccess {
+            url.stopAccessingSecurityScopedResource()
+        }
+    }
 }

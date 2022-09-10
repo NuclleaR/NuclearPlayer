@@ -14,9 +14,14 @@ import SwiftUI
 
 @main
 struct NuclearPlayerApp: App {
+    @StateObject var playlists = PlaylistsViewModel(realmCtrl: RealmController.instance)
+    @StateObject var tracks = TracksViewModel(realmCtrl: RealmController.instance)
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(playlists)
+                .environmentObject(tracks)
                 .environment(\.realm, RealmController.shared)
         }
     }

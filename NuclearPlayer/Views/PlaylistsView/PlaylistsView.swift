@@ -8,31 +8,33 @@
 import SwiftUI
 
 struct PlaylistsView: View {
-    @EnvironmentObject var viewModel: LocalLibraryViewModel
+    @EnvironmentObject var viewModel: PlaylistsViewModel
     @State private var showingDeleteAlert = false
     @State private var objectToDelete: Playlist?
 
     var body: some View {
         NavigationView {
             List {
-                ForEach(viewModel.playlists) { playlist in
-                    NavigationLink(
-                        destination:
-                            PlaylistView(playlist: playlist),
-                        label: {
-                            HStack {
-                                Text(playlist.title)
-                                Spacer()
-                                Text(String(playlist.tracks.count))
+                ForEach(viewModel.playlists.freeze()) { playlist in
+                    if !playlist.isInvalidated {
+                        NavigationLink(
+                            destination:
+                                PlaylistView(playlist: playlist.freeze()),
+                            label: {
+                                HStack {
+                                    Text(playlist.title)
+                                    Spacer()
+                                    Text(String(playlist.tracks.count))
+                                }
                             }
-                        }
-                    )
-                    .swipeActions {
-                        Button(role: .destructive) {
-                            objectToDelete = playlist
-                            showingDeleteAlert = true
-                        } label: {
-                            Image(systemName: "trash")
+                        )
+                        .swipeActions {
+                            Button(role: .destructive) {
+                                objectToDelete = playlist
+                                showingDeleteAlert = true
+                            } label: {
+                                Image(systemName: "trash")
+                            }
                         }
                     }
                 }
@@ -56,16 +58,13 @@ struct PlaylistsView: View {
     }
 
     private func addToLibrary(title: String) {
-        viewModel.addToLibrary(title: title)
+        viewModel.createPlaylist(with: title)
     }
 
     private func handleRemove() {
         guard let playlist = objectToDelete else { return }
         withAnimation {
-            viewModel.removeFromLibrary(playlist: playlist)
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            viewModel.removeFromStorage(playlist)
+            viewModel.removePlaylist(id: playlist.id)
             objectToDelete = nil
         }
     }

@@ -43,9 +43,18 @@ class RealmController {
                 realm.add(object)
             }
         } catch let error as NSError {
-            // Failed to write to realm.
-            // ... Handle error ...
-            print(error)
+            print("Error while create a object: \(error.localizedDescription)")
+        }
+    }
+
+    func write(_ body: EmptyClosure) {
+        do {
+            // Open a thread-safe transaction.
+            try realm.write {
+                body()
+            }
+        } catch let error as NSError {
+            print("Error in transaction: \(error.localizedDescription)")
         }
     }
 

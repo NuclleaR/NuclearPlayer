@@ -31,7 +31,7 @@
 		0666FDFB28C5127700728634 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 0666FDFA28C5127700728634 /* Realm */; };
 		0666FDFD28C5127700728634 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0666FDFC28C5127700728634 /* RealmSwift */; };
 		0666FDFF28C512A000728634 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FDFE28C512A000728634 /* Track.swift */; };
-		0666FE0128C5177700728634 /* LocalRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE0028C5177700728634 /* LocalRealm.swift */; };
+		0666FE0128C5177700728634 /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE0028C5177700728634 /* RealmController.swift */; };
 		0666FE0328C5443400728634 /* TrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE0228C5443400728634 /* TrackView.swift */; };
 		0666FE0528CA5B9A00728634 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE0428CA5B9900728634 /* Playlist.swift */; };
 		0666FE0728CA66CB00728634 /* AddPlaylistVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE0628CA66CB00728634 /* AddPlaylistVew.swift */; };
@@ -40,6 +40,8 @@
 		0666FE1528CC8C7700728634 /* OptionalExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE1428CC8C7700728634 /* OptionalExt.swift */; };
 		0666FE1728CC998C00728634 /* AddToPlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE1628CC998B00728634 /* AddToPlaylistView.swift */; };
 		0666FE1928CCA66800728634 /* types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE1828CCA66800728634 /* types.swift */; };
+		0666FE1B28CCB95800728634 /* TracksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE1A28CCB95800728634 /* TracksViewModel.swift */; };
+		0666FE1D28CCC00800728634 /* PlaylistsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE1C28CCC00800728634 /* PlaylistsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,7 +65,7 @@
 		0666FDE528C4D56D00728634 /* urlUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = urlUtils.swift; sourceTree = "<group>"; };
 		0666FDEB28C5077300728634 /* PlaylistsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsView.swift; sourceTree = "<group>"; };
 		0666FDFE28C512A000728634 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
-		0666FE0028C5177700728634 /* LocalRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalRealm.swift; sourceTree = "<group>"; };
+		0666FE0028C5177700728634 /* RealmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmController.swift; sourceTree = "<group>"; };
 		0666FE0228C5443400728634 /* TrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackView.swift; sourceTree = "<group>"; };
 		0666FE0428CA5B9900728634 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		0666FE0628CA66CB00728634 /* AddPlaylistVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaylistVew.swift; sourceTree = "<group>"; };
@@ -72,6 +74,8 @@
 		0666FE1428CC8C7700728634 /* OptionalExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalExt.swift; sourceTree = "<group>"; };
 		0666FE1628CC998B00728634 /* AddToPlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToPlaylistView.swift; sourceTree = "<group>"; };
 		0666FE1828CCA66800728634 /* types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = types.swift; sourceTree = "<group>"; };
+		0666FE1A28CCB95800728634 /* TracksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksViewModel.swift; sourceTree = "<group>"; };
+		0666FE1C28CCC00800728634 /* PlaylistsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +155,8 @@
 			children = (
 				0616507C28BE50D6003726D7 /* LocalLibraryViewModel.swift */,
 				061650D028C0E63B003726D7 /* NowPlayingViewModel.swift */,
+				0666FE1A28CCB95800728634 /* TracksViewModel.swift */,
+				0666FE1C28CCC00800728634 /* PlaylistsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -159,7 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				061650B128BE7829003726D7 /* Persistence.swift */,
-				0666FE0028C5177700728634 /* LocalRealm.swift */,
+				0666FE0028C5177700728634 /* RealmController.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -337,14 +343,16 @@
 				0616507028BE2869003726D7 /* PlayerView.swift in Sources */,
 				0666FE0328C5443400728634 /* TrackView.swift in Sources */,
 				0666FDDD28C4B1AC00728634 /* Logger.swift in Sources */,
+				0666FE1B28CCB95800728634 /* TracksViewModel.swift in Sources */,
 				0666FDEC28C5077300728634 /* PlaylistsView.swift in Sources */,
 				061650B228BE7829003726D7 /* Persistence.swift in Sources */,
 				0666FE1928CCA66800728634 /* types.swift in Sources */,
 				061650CF28C00D15003726D7 /* ToolbarView.swift in Sources */,
 				0666FE1528CC8C7700728634 /* OptionalExt.swift in Sources */,
 				0616506228BE277E003726D7 /* NuclearPlayerApp.swift in Sources */,
+				0666FE1D28CCC00800728634 /* PlaylistsViewModel.swift in Sources */,
 				0666FE0C28CB444F00728634 /* AppBackground.swift in Sources */,
-				0666FE0128C5177700728634 /* LocalRealm.swift in Sources */,
+				0666FE0128C5177700728634 /* RealmController.swift in Sources */,
 				0666FE0528CA5B9A00728634 /* Playlist.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

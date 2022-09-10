@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddToPlaylistView: View {
-    @EnvironmentObject var library: LocalLibraryViewModel
+    @EnvironmentObject var tracksViewModel: TracksViewModel
 
     @State private var searchText = ""
     @State private var selection = Set<Track>()
@@ -23,15 +23,15 @@ struct AddToPlaylistView: View {
 
     private var searchResults: [Track] {
         if searchText.isEmpty {
-            return self.library.tracks
+            return Array(tracksViewModel.tracks)
         } else {
-            return self.library.tracks.filter { $0.title.contains(searchText) }
+            return tracksViewModel.tracks.filter { $0.title.contains(searchText) }
         }
     }
 
     var body: some View {
         NavigationView {
-            List(searchResults, id: \.id) { track in
+            List(searchResults) { track in
                 let isSelected = selection.contains(track)
 
                 TrackView(track: track, selected: isSelected)

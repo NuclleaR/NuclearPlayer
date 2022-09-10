@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class Playlist: Object {
+class Playlist: Object, ObjectKeyIdentifiable {
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var title: String = ""
     @Persisted var tracks: List<Track>
@@ -33,7 +33,7 @@ extension Playlist: Identifiable {
         return (true, playlist)
     }
 
-    static func queryObjects(realm: Realm) -> Results<Playlist>? {
+    static func queryObjects(realm: Realm) -> Results<Playlist> {
         return realm.objects(Playlist.self)
     }
 }

@@ -8,16 +8,14 @@
 import SwiftUI
 
 struct LibraryView: View {
-    @EnvironmentObject var library: LocalLibraryViewModel
+    @EnvironmentObject var viewModel: TracksViewModel
 
     var body: some View {
         NavigationView {
             Group {
-                if library.tracks.count > 0 {
-                    List {
-                        ForEach(library.tracks, id: \.id) { track in
-                            TrackView(track: track)
-                        }
+                if viewModel.tracks.count > 0 {
+                    List(viewModel.tracks.freeze()) { track in
+                        TrackView(track: track)
                     }.listStyle(.plain)
                 } else {
                     VStack(spacing: 30.0) {
@@ -31,7 +29,7 @@ struct LibraryView: View {
             .toolbar(content: {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        library.isImporting = true
+                        viewModel.isImporting = true
                     } label: {
                         Image(systemName: "square.and.arrow.down")
                     }

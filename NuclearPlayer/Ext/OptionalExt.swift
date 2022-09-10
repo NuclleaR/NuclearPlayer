@@ -14,6 +14,11 @@ public extension Optional where Wrapped: Collection {
         return collection.isEmpty
     }
 
+    var isNotEmpty: Bool {
+        guard let collection = self else { return false }
+        return !collection.isEmpty
+    }
+
     var nonEmpty: Wrapped? {
         guard let collection = self else { return nil }
         guard !collection.isEmpty else { return nil }
@@ -32,7 +37,7 @@ public extension Optional {
         return self != nil
     }
 
-    var isEmpty: Bool {
+    var notPresent: Bool {
         return self == nil
     }
 }
