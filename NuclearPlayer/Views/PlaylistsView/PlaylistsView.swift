@@ -9,31 +9,14 @@ import SwiftUI
 
 struct PlaylistsView: View {
     @EnvironmentObject var viewModel: PlaylistsViewModel
-    @State private var showingDeleteAlert = false
-    @State private var objectToDelete: Playlist?
+    @State fileprivate var showingDeleteAlert = false
+    @State fileprivate var objectToDelete: Playlist?
 
     var body: some View {
         NavigationView {
             List {
                 ForEach(viewModel.playlists.freeze()) { playlist in
-                    NavigationLink {
-                        PlaylistView(playlist: playlist.freeze())
-                    } label: {
-                        HStack {
-                            Text(playlist.title)
-                            Spacer()
-                            Text(String(playlist.tracks.count))
-                        }
-                    }
-                    .swipeActions {
-                        Button(role: .destructive) {
-                            objectToDelete = playlist
-                            showingDeleteAlert = true
-                        } label: {
-                            Image(systemName: "trash")
-                        }
-
-                    }
+                    PlaylistItem(playlist.freeze())
                 }
             }
             .listStyle(.plain)
@@ -54,11 +37,35 @@ struct PlaylistsView: View {
         }
     }
 
-    private func addToLibrary(title: String) {
+    @ViewBuilder
+    private func PlaylistItem(_ playlist: Playlist) -> some View {
+        NavigationLink {
+            PlaylistView(playlist: playlist)
+        } label: {
+            HStack {
+                Text(playlist.title)
+                Spacer()
+                Text(String(playlist.tracks.count))
+            }
+        }
+        .swipeActions {
+            Button(role: .destructive) {
+                objectToDelete = playlist
+                showingDeleteAlert = true
+            } label: {
+                Image(systemName: "trash")
+            }
+        }
+    }
+}
+
+// MARK: - Handlers
+extension PlaylistsView {
+    fileprivate func addToLibrary(title: String) {
         viewModel.createPlaylist(with: title)
     }
 
-    private func handleRemove() {
+    fileprivate func handleRemove() {
         guard let playlist = objectToDelete else { return }
         withAnimation {
             viewModel.removePlaylist(id: playlist.id)
