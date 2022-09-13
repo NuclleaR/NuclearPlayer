@@ -23,6 +23,10 @@ struct NuclearPlayerApp: App {
                 .environmentObject(playlists)
                 .environmentObject(tracks)
                 .environment(\.realm, RealmController.shared)
+//                .onAppear {
+//                    UITabBar.appearance().isTranslucent = true
+//                }
         }
+
     }
 }

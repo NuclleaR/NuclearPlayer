@@ -16,26 +16,23 @@ struct PlaylistsView: View {
         NavigationView {
             List {
                 ForEach(viewModel.playlists.freeze()) { playlist in
-                    if !playlist.isInvalidated {
-                        NavigationLink(
-                            destination:
-                                PlaylistView(playlist: playlist.freeze()),
-                            label: {
-                                HStack {
-                                    Text(playlist.title)
-                                    Spacer()
-                                    Text(String(playlist.tracks.count))
-                                }
-                            }
-                        )
-                        .swipeActions {
-                            Button(role: .destructive) {
-                                objectToDelete = playlist
-                                showingDeleteAlert = true
-                            } label: {
-                                Image(systemName: "trash")
-                            }
+                    NavigationLink {
+                        PlaylistView(playlist: playlist.freeze())
+                    } label: {
+                        HStack {
+                            Text(playlist.title)
+                            Spacer()
+                            Text(String(playlist.tracks.count))
                         }
+                    }
+                    .swipeActions {
+                        Button(role: .destructive) {
+                            objectToDelete = playlist
+                            showingDeleteAlert = true
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+
                     }
                 }
             }
@@ -73,7 +70,7 @@ struct PlaylistsView: View {
 struct PlaylistsView_Previews: PreviewProvider {
     static var previews: some View {
         PlaylistsView()
-            .environmentObject(LocalLibraryViewModel.preview)
+            .environmentObject(PlaylistsViewModel(realmCtrl: RealmController.previewRealm))
             .previewLayout(.fixed(width: 390.0, height: 500.0))
     }
 }

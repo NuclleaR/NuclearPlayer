@@ -22,6 +22,7 @@ struct AddPlaylistVew: View {
             showingPopover.toggle()
         }, label: {
             Image(systemName: "plus.circle.fill")
+                .padding(5.0)
         })
         .popover(isPresented: $showingPopover) {
             NavigationView {

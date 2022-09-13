@@ -9,26 +9,28 @@ import SwiftUI
 
 // TODO fill artwork with image
 struct SongTitleView: View {
-    @State var trackInfo = NowPlayingViewModel.shared.trackInfo
+    @EnvironmentObject var viewModel: NowPlayingViewModel
 
     var body: some View {
+        let ti = viewModel.trackInfo
+
         VStack(alignment: .leading) {
             Spacer()
             ArtworkView()
             Spacer()
-            if let ti = trackInfo {
-                Text(ti.title)
+            if ti.isPresent {
+                Text(ti!.title)
                     .font(.title)
                     .lineLimit(1)
                 HStack(spacing: 0.0) {
-                    if !ti.artist.isEmpty {
-                        Text(ti.artist)
+                    if !ti!.artist.isEmpty {
+                        Text(ti!.artist)
                         Text(",").padding(.trailing, 5.0)
                     }
-                    if let album = ti.album, !album.isEmpty {
+                    if let album = ti!.album, !album.isEmpty {
                         Text(album).padding(.trailing, 8.0)
                     }
-                    if let year = ti.year {
+                    if let year = ti!.year {
                         Text(trackFormatter.string(from: year)).fontWeight(.semibold)
                     }
                 }
@@ -50,8 +52,11 @@ private let trackFormatter: DateFormatter = {
 }()
 
 struct SongTitle_Previews: PreviewProvider {
+    @Namespace private static var test
+
     static var previews: some View {
         SongTitleView()
+            .environmentObject(NowPlayingViewModel.shared)
             .preferredColorScheme(.dark)
             .previewLayout(.sizeThatFits)
     }

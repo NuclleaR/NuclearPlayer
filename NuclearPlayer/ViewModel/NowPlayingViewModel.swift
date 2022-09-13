@@ -13,14 +13,19 @@ import SwiftAudioPlayer
 // TODO create default queue playlist containing now playing song
 // TODO subscribe to SAPlayer.shared.prettyDuration
 class NowPlayingViewModel: ObservableObject {
+
     @Published private(set) var track: Track?
-//    @Published private(set) var playlist: Playlist?
+    @Published private(set) var playlist: Playlist?
+
     @Published private(set) var trackInfo: TrackInfo?
     @Published private(set) var isPlaying: Bool = false
-    @Published private(set) var isPlaylistOpened: Bool = false
     @Published private(set) var playedQueue: [URL] = []
-    // TODO make private setter
+
+    @Published private(set) var isPlaylistOpened: Bool = false
+
+    @Published var isPlayerOpened = false
     @Published var position: Double = 0
+
 
     private var cancellable = Set<AnyCancellable>()
     private var playStatusId: UInt?
@@ -28,6 +33,10 @@ class NowPlayingViewModel: ObservableObject {
     private var elapsedId: UInt?
 
     private init() {
+#if DEBUG
+        SAPlayer.shared.DEBUG_MODE = true
+#endif
+
         // TODO Move this logic to do in background
         $track.compactMap({ $0?.bookmarkData })
             .map({ URLUtils.restoreURLFromData(bookmarkData: $0) })
@@ -59,7 +68,11 @@ class NowPlayingViewModel: ObservableObject {
     }
 
     func togglePlaylist() {
-        isPlaylistOpened = !isPlaylistOpened
+        isPlaylistOpened.toggle()
+    }
+
+    func togglePlayer() {
+        isPlayerOpened.toggle()
     }
 
     private func subscribeToPlayingStatus() {
