@@ -9,6 +9,8 @@ import SwiftUI
 
 struct LibraryView: View {
     @EnvironmentObject var viewModel: TracksViewModel
+    @State private var showingDeleteAlert = false
+    @State private var objectToDelete: Track?
 
     var body: some View {
         NavigationView {
@@ -16,6 +18,14 @@ struct LibraryView: View {
                 if viewModel.tracks.count > 0 {
                     List(viewModel.tracks.freeze()) { track in
                         TrackView(track: track)
+                            .swipeActions {
+                                Button(role: .destructive) {
+                                    objectToDelete = track
+                                    showingDeleteAlert.toggle()
+                                } label: {
+                                    Image(systemName: "trash")
+                                }
+                            }
                     }.listStyle(.plain)
                 } else {
                     VStack(spacing: 30.0) {
@@ -35,7 +45,23 @@ struct LibraryView: View {
                     }
                 }
             })
-        }.navigationViewStyle(.stack)
+        }
+        .navigationViewStyle(.stack)
+        .confirmationDialog(
+            Text("Delete \(objectToDelete?.title ?? "...")?"),
+            isPresented: $showingDeleteAlert,
+            titleVisibility: .visible
+        ) {
+            Button("Delete", role: .destructive, action: handleRemove)
+        }
+    }
+
+    private func handleRemove() {
+        guard let track = objectToDelete else { return }
+        withAnimation {
+            viewModel.removeFromLibrary(id: track.id)
+            objectToDelete = nil
+        }
     }
 }
 
