@@ -71,6 +71,6 @@ struct AddToPlaylist_Previews: PreviewProvider {
         }, {
             print("Cancel")
         })
-            .environmentObject(LocalLibraryViewModel.preview)
+            .environmentObject(TracksViewModel(realmCtrl: RealmController.previewRealm))
     }
 }

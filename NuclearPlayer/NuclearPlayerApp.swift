@@ -14,8 +14,16 @@ import SwiftUI
 
 @main
 struct NuclearPlayerApp: App {
-    @StateObject var playlists = PlaylistsViewModel(realmCtrl: RealmController.instance)
-    @StateObject var tracks = TracksViewModel(realmCtrl: RealmController.instance)
+    var playlists: PlaylistsViewModel
+    var tracks: TracksViewModel
+    let library: LibrarySync
+
+    init() {
+        playlists = PlaylistsViewModel(realmCtrl: RealmController.instance)
+        tracks = TracksViewModel(realmCtrl: RealmController.instance)
+        library = LibrarySync(tracksViewModel: tracks, playlistsViewModel: playlists)
+        library.subscribeToLibraryUpdates()
+    }
 
     var body: some Scene {
         WindowGroup {

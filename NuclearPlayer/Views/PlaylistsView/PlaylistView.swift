@@ -81,7 +81,7 @@ struct PlaylistView_Previews: PreviewProvider {
         PlaylistView(
             playlist: RealmController.getPlaylist()
         )
-        .environmentObject(LocalLibraryViewModel.preview)
+        .environmentObject(PlaylistsViewModel(realmCtrl: RealmController.previewRealm))
         .previewLayout(.sizeThatFits)
     }
 }
