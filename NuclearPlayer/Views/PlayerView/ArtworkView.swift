@@ -34,8 +34,6 @@ struct ArtworkView: View {
 }
 
 struct ArtworkView_Previews: PreviewProvider {
-    @Namespace private static var test
-
     static var previews: some View {
         ArtworkView()
             .previewLayout(.sizeThatFits)

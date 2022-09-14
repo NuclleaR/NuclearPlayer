@@ -18,7 +18,7 @@ enum PlayerAction {
 }
 
 struct ControlsView: View {
-    @StateObject var viewModel = NowPlayingViewModel.shared
+    @EnvironmentObject var viewModel: NowPlayingViewModel
 
     var body: some View {
         VStack {
@@ -47,7 +47,9 @@ struct ControlsView: View {
                 Spacer()
             }
             VStack {
-                Slider(value: $viewModel.position, in: 0...172)
+                Slider(value: $viewModel.position, in: 0...180) { isChanged in
+                    print(isChanged)
+                }
                 HStack{
                     Text(SAPlayer.prettifyTimestamp(viewModel.position))
                         .foregroundColor(.white)
@@ -89,6 +91,7 @@ struct ControlsView: View {
 struct Controls_Previews: PreviewProvider {
     static var previews: some View {
         ControlsView()
+            .environmentObject(NowPlayingViewModel.shared)
             .preferredColorScheme(.dark)
             .previewLayout(.sizeThatFits)
     }

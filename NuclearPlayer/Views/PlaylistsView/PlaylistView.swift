@@ -12,6 +12,7 @@ import RealmSwift
 
 struct PlaylistView: View {
     @EnvironmentObject var viewModel: PlaylistsViewModel
+    @EnvironmentObject var nowPlaying: NowPlayingViewModel
     @StateRealmObject var playlist: Playlist
 
     @State var showingPopover = false
@@ -68,7 +69,7 @@ struct PlaylistView: View {
     }
 
     private func startPlay() {
-
+        nowPlaying.setPlayQueue(with: playlist)
     }
 
     private func shufflePlay() {

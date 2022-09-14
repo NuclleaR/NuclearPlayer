@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import SwiftAudioPlayer
+import RealmSwift
 
 // TODO Subscribe for audio player play time change
 // TODO create default queue playlist containing now playing song
@@ -26,11 +27,12 @@ class NowPlayingViewModel: ObservableObject {
     @Published var isPlayerOpened = false
     @Published var position: Double = 0
 
-
     private var cancellable = Set<AnyCancellable>()
     private var playStatusId: UInt?
     private var queueId: UInt?
     private var elapsedId: UInt?
+
+    private let player = SAPlayer.shared
 
     private init() {
 #if DEBUG
@@ -44,6 +46,16 @@ class NowPlayingViewModel: ObservableObject {
                 return TrackInfo(url: url)
             }.assign(to: \.trackInfo, on: self)
             .store(in: &cancellable)
+
+        $playlist.map { playlist in
+            return playlist?.tracks
+        }.sink { tracks in
+            if tracks.isNilOrEmpty {
+                self.player.clear()
+            } else {
+                self.initQueeue(with: tracks!)
+            }
+        }.store(in: &cancellable)
 
         subscribeToAudioQueue()
         subscribeToElapsedTime()
@@ -75,6 +87,31 @@ class NowPlayingViewModel: ObservableObject {
         isPlayerOpened.toggle()
     }
 
+    func seekTo(_ position: Double) {
+        player.seekTo(seconds: position)
+    }
+
+    func setPlayQueue(with playlist: Playlist) {
+        self.playlist = playlist
+    }
+
+    private func initQueeue(with tracks: List<Track>) {
+        tracks.enumerated().forEach { (index, track) in
+            guard let urlData = track.bookmarkData else { return }
+
+            URLUtils.withAcess(to: urlData) { url in
+                let mediaInfo = getSALockScreenInfo(url: url)
+                if index == 0 {
+                    player.startSavedAudioWithPrevQueue(withSavedUrl: url, mediaInfo: mediaInfo)
+                } else {
+                    player.queueSavedAudio(withSavedUrl: url, mediaInfo: mediaInfo)
+                }
+            }
+        }
+
+        player.play()
+    }
+
     private func subscribeToPlayingStatus() {
         playStatusId = SAPlayer.Updates.PlayingStatus.subscribe { [weak self] playingStatus in
             guard let self = self else { return }
@@ -104,11 +141,7 @@ class NowPlayingViewModel: ObservableObject {
 
     private func subscribeToElapsedTime() {
         elapsedId = SAPlayer.Updates.ElapsedTime.subscribe { [weak self] (position) in
-            guard let self = self else { return }
-
-//            guard self.duration != 0 else { return }
-
-            self.position = position
+            self?.position = position
         }
     }
 

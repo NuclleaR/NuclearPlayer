@@ -35,8 +35,6 @@ struct PlayerView: View {
 }
 
 struct Player_Previews: PreviewProvider {
-    @Namespace private static var test
-
     static var previews: some View {
         PlayerView()
             .environmentObject(NowPlayingViewModel.shared)

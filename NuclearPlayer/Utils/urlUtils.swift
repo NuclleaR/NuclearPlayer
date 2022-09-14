@@ -16,7 +16,17 @@ struct URLUtils {
         return URL!
     }
 
-    static func withAcess(to url: URL, body: ParamClosure<URL>) {
+    static func withAcess(to url: URL, body: (_ url: URL) -> Void) {
+        let isStartAccess = url.startAccessingSecurityScopedResource()
+        body(url)
+        if isStartAccess {
+            url.stopAccessingSecurityScopedResource()
+        }
+    }
+
+    static func withAcess(to urldata: Data, body: (_ url: URL) -> Void) {
+        let url = restoreURLFromData(bookmarkData: urldata)
+
         let isStartAccess = url.startAccessingSecurityScopedResource()
         body(url)
         if isStartAccess {

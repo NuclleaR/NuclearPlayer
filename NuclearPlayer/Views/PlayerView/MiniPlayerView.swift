@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MiniPlayerView: View {
-    var namespace: Namespace.ID
     var track: Track
     var height: CGFloat
 
@@ -22,14 +21,11 @@ struct MiniPlayerView: View {
     var body: some View {
         HStack {
             Image(systemName: "music.note")
-                .matchedGeometryEffect(id: K.albimArtId, in: namespace)
                 .padding()
             VStack(alignment: .leading) {
                 Text(track.title)
-                    .matchedGeometryEffect(id: K.titleId, in: namespace)
                 if !track.artist.isEmpty {
                     Text(track.artist)
-                        .matchedGeometryEffect(id: K.artistId, in: namespace)
                 }
             }
             Spacer()
@@ -62,11 +58,8 @@ struct MiniPlayerView_Previews: PreviewProvider {
         return track
     }()
 
-    @Namespace private static var test
-
     static var previews: some View {
         MiniPlayerView(
-            namespace: test,
             track: MiniPlayerView_Previews.track,
             height: 60,
             onPlay: {},

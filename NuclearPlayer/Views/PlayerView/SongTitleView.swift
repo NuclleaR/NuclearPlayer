@@ -52,8 +52,6 @@ private let trackFormatter: DateFormatter = {
 }()
 
 struct SongTitle_Previews: PreviewProvider {
-    @Namespace private static var test
-
     static var previews: some View {
         SongTitleView()
             .environmentObject(NowPlayingViewModel.shared)
