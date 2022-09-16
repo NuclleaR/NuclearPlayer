@@ -14,9 +14,19 @@ struct PlaylistsView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                ForEach(viewModel.playlists.freeze()) { playlist in
-                    PlaylistItem(playlist.freeze())
+            Group {
+                if viewModel.playlists.count > 0 {
+                    List {
+                        ForEach(viewModel.playlists.freeze()) { playlist in
+                            PlaylistItem(playlist.freeze())
+                        }
+                    }
+                } else {
+                    VStack(spacing: 30.0) {
+                        Image(systemName: "rectangle.stack.badge.plus")
+                            .font(.system(size: 64))
+                        Text("You don't have any playlist yet")
+                    }.opacity(0.3)
                 }
             }
             .listStyle(.plain)

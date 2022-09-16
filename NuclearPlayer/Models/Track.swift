@@ -13,10 +13,12 @@ class Track: Object, ObjectKeyIdentifiable {
     @Persisted var title: String = ""
     @Persisted var artist: String = ""
     @Persisted var album: String = ""
-    @Persisted var duration: Int = 0
+    @Persisted var duration: Float64 = 0
 
     @Persisted var bookmarkData: Data?
     @Persisted var url: String = ""
+
+    var trackInfo: TrackInfo?
 }
 
 extension Track {
@@ -25,10 +27,10 @@ extension Track {
 
         URLUtils.withAcess(to: url) { url in
             let ti = TrackInfo(url: url)
-            track.url = url.path
+            track.url = url.lastPathComponent
             track.title = ti.title
             track.artist = ti.artist
-            track.duration = Int(ti.duration.value)
+            track.duration = ti.duration
 
             if (ti.album != nil) {
                 track.album = ti.album!
@@ -44,9 +46,7 @@ extension Track {
     static func add(url: URL, ctrl: RealmController) -> (Bool, Track?) {
         // make sure that files in storage are uniq
         // try go get object
-        let obj = RealmController.shared.objects(Track.self).where { track in
-            track.url == url.path
-        }.first
+        let obj = RealmController.shared.objects(Track.self).filter(NSPredicate(format: "url == %@", url.lastPathComponent)).first
 
         if obj != nil {
             return (false, nil)

@@ -18,9 +18,7 @@ extension Playlist: Identifiable {
     static func add(_ title: String, ctrl: RealmController = RealmController.instance) -> (Bool, Playlist?) {
         // make sure that playlist name uniq
         // try go get object
-        let obj = RealmController.shared.objects(Playlist.self).where { playlst in
-            playlst.title == title
-        }.first
+        let obj = RealmController.shared.objects(Playlist.self).filter(NSPredicate(format: "title == %@", title)).first
 
         if obj != nil {
             return (false, nil)

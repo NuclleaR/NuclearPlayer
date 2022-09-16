@@ -11,6 +11,7 @@ import SwiftUI
 // TODO Create view model to handle import from different places
 // TODO search for core data listener to refresh library after import
 // TODO Check if file exists before play
+// TODO fix #available(iOS 16.0, *) when move to iOS 16
 
 @main
 struct NuclearPlayerApp: App {

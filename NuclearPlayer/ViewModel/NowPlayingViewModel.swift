@@ -1,18 +1,18 @@
-//
-//  NowPlaying.swift
-//  NuclearPlayer
-//
-//  Created by Sergey Koreniuk on 01.09.2022.
-//
+    //
+    //  NowPlaying.swift
+    //  NuclearPlayer
+    //
+    //  Created by Sergey Koreniuk on 01.09.2022.
+    //
 
 import Foundation
 import Combine
 import SwiftAudioPlayer
 import RealmSwift
 
-// TODO Subscribe for audio player play time change
-// TODO create default queue playlist containing now playing song
-// TODO subscribe to SAPlayer.shared.prettyDuration
+    // TODO Subscribe for audio player play time change
+    // TODO create default queue playlist containing now playing song
+    // TODO subscribe to SAPlayer.shared.prettyDuration
 class NowPlayingViewModel: ObservableObject {
 
     @Published private(set) var track: Track?
@@ -39,7 +39,7 @@ class NowPlayingViewModel: ObservableObject {
         SAPlayer.shared.DEBUG_MODE = true
 #endif
 
-        // TODO Move this logic to do in background
+            // TODO Move this logic to do in background
         $track.compactMap({ $0?.bookmarkData })
             .map({ URLUtils.restoreURLFromData(bookmarkData: $0) })
             .map { url in
@@ -57,6 +57,11 @@ class NowPlayingViewModel: ObservableObject {
             }
         }.store(in: &cancellable)
 
+        $position.sink { val in
+            print("Position", val)
+//            player.seekTo(seconds: val)
+        }.store(in: &cancellable)
+
         subscribeToAudioQueue()
         subscribeToElapsedTime()
         subscribeToPlayingStatus()
@@ -65,17 +70,38 @@ class NowPlayingViewModel: ObservableObject {
     func handleControls(_ action: PlayerAction) {
         switch action {
         case .Play:
-            SAPlayer.shared.play()
+            player.play()
         case .Pause:
-            SAPlayer.shared.pause()
+            player.pause()
         case .Next:
-            SAPlayer.shared.next()
+            player.next()
+            if player.audioQueued.count > 0 {
+                track = getTrackFromPlaylist(with: player.playedQueue.last?.url)
+            }
         case .Prev:
-            SAPlayer.shared.prev()
+            if position > 1.5 {
+                player.seekTo(seconds: 0)
+                return
+            }
+            player.prev()
+            if playedQueue.count > 1 {
+                track = getTrackFromPlaylist(with: player.playedQueue.last?.url)
+            }
         case .Repeat: break
 
         case .Shuffle: break
 
+        }
+    }
+
+    func togglePlayPause() {
+        player.togglePlayAndPause()
+    }
+
+    func playNext() {
+        player.next()
+        if player.audioQueued.count > 0 {
+            track = getTrackFromPlaylist(with: player.playedQueue.last?.url)
         }
     }
 
@@ -93,6 +119,7 @@ class NowPlayingViewModel: ObservableObject {
 
     func setPlayQueue(with playlist: Playlist) {
         self.playlist = playlist
+        self.track = playlist.tracks.first
     }
 
     private func initQueeue(with tracks: List<Track>) {
@@ -131,11 +158,11 @@ class NowPlayingViewModel: ObservableObject {
 
     private func subscribeToAudioQueue() {
         queueId = SAPlayer.Updates.AudioQueue.subscribe { [weak self] forthcomingPlaybackUrl in
-            guard let self = self else { return }
             // TODO Check if file exists before play
             // If no - remove from library and notify user
-            // TODO Need get access to file before init player
-            print(forthcomingPlaybackUrl)
+
+            guard let self = self else { return }
+            self.track = self.playlist?.tracks.first(where: { $0.url == forthcomingPlaybackUrl.lastPathComponent })
         }
     }
 
@@ -145,5 +172,10 @@ class NowPlayingViewModel: ObservableObject {
         }
     }
 
+    private func getTrackFromPlaylist(with url: URL?) -> Track? {
+        guard let filename = url?.lastPathComponent else { return nil }
+        print(filename)
+        return playlist?.tracks.first(where: { $0.url == filename })
+    }
     static let shared = NowPlayingViewModel()
 }

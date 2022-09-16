@@ -43,7 +43,7 @@ extension TracksViewModel {
     func addToLibrary(url: URL) {
         // make sure that files in storage are uniq
         // try go get object
-        let result = RealmController.shared.objects(Track.self).filter(NSPredicate(format: "url == %@", url.path))
+        let result = RealmController.shared.objects(Track.self).filter(NSPredicate(format: "url == %@", url.lastPathComponent))
 
         if !result.isEmpty { return }
 

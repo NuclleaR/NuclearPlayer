@@ -26,28 +26,14 @@ struct ContentView: View {
                     Label("Playlists", systemImage: "music.note.list")
                 }.tag(2)
         }
-//        .overlay(alignment: .bottom, content: {
-//            MiniPlayerView(
-//                namespace: playerNamespace,
-//                track: viewModel.tracks.first!,
-//                height: playerHeight,
-//                isPlaying: nowPlayingViewModel.isPlaying,
-//                onPlay: {
-//                    print("Play")
-//                },
-//                onNext: {
-//                    print("Next")
-//                },
-//                onOpenPlayer: {
-//                    withAnimation {
-//                        nowPlayingViewModel.togglePlayer()
-//                    }
-//                }
-//            )
-//        })
-//        .overlay(content: {
-//            PlayerView(namespace: playerNamespace)
-//        })
+        .overlay(alignment: .bottom, content: {
+            MiniPlayer()
+        })
+        .overlay(content: {
+            if nowPlayingViewModel.isPlayerOpened {
+                PlayerView()
+            }
+        })
         .fileImporter(
             isPresented: $viewModel.isImporting,
             allowedContentTypes: [.audio],
@@ -55,6 +41,22 @@ struct ContentView: View {
             onCompletion: viewModel.importFiles
         )
         .environmentObject(nowPlayingViewModel)
+    }
+
+    @ViewBuilder
+    private func MiniPlayer() -> some View {
+        MiniPlayerView(
+            track: nowPlayingViewModel.track,
+            height: playerHeight,
+            isPlaying: nowPlayingViewModel.isPlaying,
+            onPlay: nowPlayingViewModel.togglePlayPause,
+            onNext: nowPlayingViewModel.playNext,
+            onOpenPlayer: {
+                withAnimation {
+                    nowPlayingViewModel.togglePlayer()
+                }
+            }
+        )
     }
 }
 

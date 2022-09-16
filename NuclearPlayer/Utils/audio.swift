@@ -8,20 +8,17 @@
 import UIKit
 import AVFoundation
 import SwiftAudioPlayer
-import ID3TagEditor
 
 struct TrackInfo {
-    private static let id3TagEditor = ID3TagEditor()
-
     var title: String
     var artist: String
     var album: String?
     var genre: String?
     var artwork: UIImage?
-    let duration: CMTime
-    var year: Date?
+    let duration: Float64
+    var year: String?
 
-    init(title: String, artist: String = "", album: String? = nil, genre: String? = nil, artwork: UIImage? = nil, year: Date?, duration: CMTime) {
+    init(title: String, artist: String = "", album: String? = nil, genre: String? = nil, artwork: UIImage? = nil, year: String?, duration: Float64) {
         self.title = title
         self.artist = artist
         self.album = album
@@ -32,39 +29,39 @@ struct TrackInfo {
     }
 
     init(url: URL) {
-        var res: ID3Tag?
-        do {
-            res = try TrackInfo.id3TagEditor.read(from: url.path)
-        } catch {
-            AppLogger.shared.error("Can't parse ID3 tag")
-        }
+        let asset = AVURLAsset(url: url)
 
-        let playerItem = AVPlayerItem(url: url)
-        let metadataList = playerItem.asset.metadata
-        self.duration = playerItem.duration
+        let metadataList = asset.metadata
+        self.duration = CMTimeGetSeconds(asset.duration)
         self.title = url.lastPathComponent
         self.artist = ""
 
         print(url.lastPathComponent, metadataList)
-//        print(url.lastPathComponent, res)
 
         for item in metadataList {
             switch item.identifier {
-            case .commonIdentifierTitle?:
+            case .id3MetadataTitleDescription?:
                 if item.stringValue != nil {
                     self.title = item.stringValue!
                 }
-            case .commonIdentifierType?:
-                self.genre = item.stringValue
-            case .commonIdentifierAlbumName?:
-                self.album = item.stringValue
-            case .commonIdentifierArtist?:
+            case .id3MetadataLeadPerformer?, .id3MetadataBand?, .id3MetadataConductor?, .id3MetadataModifiedBy?:
                 if item.stringValue != nil {
                     self.artist = item.stringValue!
                 }
+            case .id3MetadataContentType?:
+                if item.stringValue != nil {
+                    self.genre = item.stringValue
+                }
+            case .id3MetadataAlbumTitle?:
+                // id3MetadataOriginalAlbumTitle
+                if item.stringValue != nil {
+                    self.album = item.stringValue
+                }
             case .id3MetadataYear?:
-                self.year = item.dateValue
-            case .commonIdentifierArtwork?:
+                if item.stringValue != nil {
+                    self.year = item.stringValue
+                }
+            case .id3MetadataAttachedPicture?:
                 if let data = item.dataValue, let image = UIImage(data: data) {
                     // info.artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
                     self.artwork = image
@@ -94,5 +91,5 @@ func getSALockScreenInfo(url: URL) -> SALockScreenInfo {
         artist: trackInfo.artist,
         albumTitle: trackInfo.album,
         artwork: trackInfo.artwork,
-        releaseDate: trackInfo.year != nil ? UTC(trackInfo.year!.timeIntervalSince1970) : UTC.init())
+        releaseDate: 0)
 }

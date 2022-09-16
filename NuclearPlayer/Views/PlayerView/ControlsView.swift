@@ -47,8 +47,8 @@ struct ControlsView: View {
                 Spacer()
             }
             VStack {
-                Slider(value: $viewModel.position, in: 0...180) { isChanged in
-                    print(isChanged)
+                Slider(value: $viewModel.position, in: 0...(viewModel.track?.duration ?? 1)) { isChanged in
+                    print("isChanged", isChanged)
                 }
                 HStack{
                     Text(SAPlayer.prettifyTimestamp(viewModel.position))

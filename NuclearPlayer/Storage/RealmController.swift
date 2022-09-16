@@ -20,8 +20,8 @@ class RealmController {
             // Delete the realm if a migration would be required, instead of migrating it.
             // While it's useful during development, do not leave this set to `true` in a production app!
             var configuration = Realm.Configuration(
-                schemaVersion: 0,
-                deleteRealmIfMigrationNeeded: true
+                schemaVersion: 0
+//                deleteRealmIfMigrationNeeded: true
             )
             if inMemoryIdentifier != nil {
                 configuration.inMemoryIdentifier = inMemoryIdentifier
@@ -124,7 +124,7 @@ extension RealmController {
     static var previewRealm: RealmController = {
         let identifier = "previewRealm"
         let ctrl = RealmController(inMemoryIdentifier: identifier)
-
+//        return ctrls
         let (playlists, tracks) = getPlaylistsWithTracks()
 
         do {
@@ -144,7 +144,12 @@ extension RealmController {
     }()
 
     static func getPlaylist() -> Playlist {
-        return previewRealm.realm.objects(Playlist.self).first ?? Playlist()
+        if let playlist = previewRealm.realm.objects(Playlist.self).first {
+            return playlist
+        }
+        let playlist = Playlist()
+        playlist.title = "Test playlist"
+        return playlist
     }
 
     static func getTrack() -> Track {

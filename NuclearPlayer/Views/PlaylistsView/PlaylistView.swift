@@ -19,32 +19,40 @@ struct PlaylistView: View {
 
     var body: some View {
         VStack {
-            HStack {
-                Button(action: startPlay) {
-                    Image(systemName: "play.circle.fill")
-                        .font(.system(size: 48))
-                }.tint(.green)
-                Button(action: shufflePlay) {
-                    Label("Shuffle", systemImage: "shuffle")
-                }
-                .buttonStyle(.borderedProminent)
-                .clipShape(Capsule())
-                .tint(.green)
-                Spacer()
-            }.padding()
-            List(playlist.tracks.freeze()) { item in
-                TrackView(track: item)
-                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        Button(role: .destructive) {
-                            withAnimation {
-                                viewModel.removeTrackFromPlaylist(id: playlist.id, trackId: item.id)
-                            }
-                        } label: {
-                            Image(systemName: "trash")
-                        }
+            if playlist.tracks.count > 0 {
+                HStack {
+                    Button(action: startPlay) {
+                        Image(systemName: "play.circle.fill")
+                            .font(.system(size: 48))
+                    }.tint(.green)
+                    Button(action: shufflePlay) {
+                        Label("Shuffle", systemImage: "shuffle")
                     }
+                    .buttonStyle(.borderedProminent)
+                    .clipShape(Capsule())
+                    .tint(.green)
+                    Spacer()
+                }.padding()
+                List(playlist.tracks.freeze()) { item in
+                    TrackView(track: item)
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+                                withAnimation {
+                                    viewModel.removeTrackFromPlaylist(id: playlist.id, trackId: item.id)
+                                }
+                            } label: {
+                                Image(systemName: "trash")
+                            }
+                        }
+                }
+                .listStyle(.plain)
+            } else {
+                VStack(spacing: 30.0) {
+                    Image(systemName: "rectangle.stack.badge.plus")
+                        .font(.system(size: 64))
+                    Text("Playlist is empty. Please add tracks")
+                }.opacity(0.3)
             }
-            .listStyle(.plain)
         }
         .navigationTitle(playlist.title)
         .toolbar(content: {

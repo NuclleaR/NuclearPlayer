@@ -23,17 +23,65 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "796886B6-CC53-434A-BAB1-B035E177AEB0"
-            shouldBeEnabled = "Yes"
+            uuid = "D93A0965-D542-42C8-AB2E-3EEAAEF23B29"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NuclearPlayer/Utils/audio.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
             landmarkName = "init(url:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CA8AFF4C-86C2-4373-B5F3-9E25365D39ED"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "NuclearPlayer/Utils/audio.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "init(url:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "CA8AFF4C-86C2-4373-B5F3-9E25365D39ED - 64a66e40e451d985"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NuclearPlayer.TrackInfo.init(url: Foundation.URL) -&gt; NuclearPlayer.TrackInfo"
+                  moduleName = "NuclearPlayer"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nuclear/repo/xcode/NuclearPlayer/NuclearPlayer/Utils/audio.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "5248">
+               </Location>
+               <Location
+                  uuid = "CA8AFF4C-86C2-4373-B5F3-9E25365D39ED - 64a66e40e451d985"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NuclearPlayer.TrackInfo.init(url: Foundation.URL) -&gt; NuclearPlayer.TrackInfo"
+                  moduleName = "NuclearPlayer"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nuclear/repo/xcode/NuclearPlayer/NuclearPlayer/Utils/audio.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "5296">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

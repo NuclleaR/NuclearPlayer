@@ -86,6 +86,7 @@
 		0666FE2228CE910A00728634 /* NumbersExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersExt.swift; sourceTree = "<group>"; };
 		0666FE2628CFA63500728634 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0666FE2928D0E54F00728634 /* NamespaceEnv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceEnv.swift; sourceTree = "<group>"; };
+		0666FE2B28D1E9B600728634 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +124,7 @@
 		0616506028BE277E003726D7 /* NuclearPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				0666FE2B28D1E9B600728634 /* Info.plist */,
 				0616506528BE2781003726D7 /* Assets.xcassets */,
 				0666FE0A28CB440200728634 /* Components */,
 				0666FDD428C2029700728634 /* Ext */,
@@ -513,6 +515,7 @@
 				DEVELOPMENT_TEAM = 965KU2KXDB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NuclearPlayer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -542,6 +545,7 @@
 				DEVELOPMENT_TEAM = 965KU2KXDB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NuclearPlayer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

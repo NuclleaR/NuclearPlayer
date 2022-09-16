@@ -12,26 +12,21 @@ struct SongTitleView: View {
     @EnvironmentObject var viewModel: NowPlayingViewModel
 
     var body: some View {
-        let ti = viewModel.trackInfo
-
         VStack(alignment: .leading) {
             Spacer()
             ArtworkView()
             Spacer()
-            if ti.isPresent {
-                Text(ti!.title)
+            if let track = viewModel.track {
+                Text(track.title)
                     .font(.title)
                     .lineLimit(1)
                 HStack(spacing: 0.0) {
-                    if !ti!.artist.isEmpty {
-                        Text(ti!.artist)
+                    if !track.artist.isEmpty {
+                        Text(track.artist)
+                    }
+                    if let album = track.album, !album.isEmpty {
                         Text(",").padding(.trailing, 5.0)
-                    }
-                    if let album = ti!.album, !album.isEmpty {
                         Text(album).padding(.trailing, 8.0)
-                    }
-                    if let year = ti!.year {
-                        Text(trackFormatter.string(from: year)).fontWeight(.semibold)
                     }
                 }
             }

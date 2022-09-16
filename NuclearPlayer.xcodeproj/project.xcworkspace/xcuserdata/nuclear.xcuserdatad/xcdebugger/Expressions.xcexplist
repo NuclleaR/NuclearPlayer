@@ -6,6 +6,24 @@
          contextName = "TrackInfo.init(url:):audio.swift">
          <PersistentStrings>
             <PersistentString
+               value = "item.numberValue">
+            </PersistentString>
+            <PersistentString
+               value = "item.dataValue">
+            </PersistentString>
+            <PersistentString
+               value = "playerItem.seekableTimeRanges">
+            </PersistentString>
+            <PersistentString
+               value = "item.stringValue">
+            </PersistentString>
+            <PersistentString
+               value = "item.identifier">
+            </PersistentString>
+            <PersistentString
+               value = "playerItem.duration">
+            </PersistentString>
+            <PersistentString
                value = "item.commonKey">
             </PersistentString>
          </PersistentStrings>
@@ -22,7 +40,27 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in LocalLibraryViewModel.init(context:):LocalLibraryViewModel.swift">
+         contextName = "LocalLibraryViewModel.removeFromLibrary(track:):LocalLibraryViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tracks">
+            </PersistentString>
+            <PersistentString
+               value = "player.playedQueue">
+            </PersistentString>
+            <PersistentString
+               value = "track.url">
+            </PersistentString>
+            <PersistentString
+               value = "player.playedQueue.last?.url.path">
+            </PersistentString>
+            <PersistentString
+               value = "player.audioQueued">
+            </PersistentString>
+            <PersistentString
+               value = "player.playedQueue.last">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "LocalLibraryViewModel.saveData(_:):LocalLibraryViewModel.swift">
@@ -36,27 +74,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "LocalLibraryViewModel.removeFromLibrary(track:):LocalLibraryViewModel.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "player.playedQueue.last">
-            </PersistentString>
-            <PersistentString
-               value = "player.playedQueue">
-            </PersistentString>
-            <PersistentString
-               value = "tracks">
-            </PersistentString>
-            <PersistentString
-               value = "player.playedQueue.last?.url.path">
-            </PersistentString>
-            <PersistentString
-               value = "player.audioQueued">
-            </PersistentString>
-            <PersistentString
-               value = "track.url">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "closure #1 in LocalLibraryViewModel.init(context:):LocalLibraryViewModel.swift">
       </ContextState>
       <ContextState
          contextName = "closure #1 in RealmController.remove(object:):LocalRealm.swift">
