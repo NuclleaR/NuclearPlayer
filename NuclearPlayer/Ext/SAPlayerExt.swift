@@ -84,6 +84,12 @@ extension SAPlayer {
         play()
     }
 
+    func reset() {
+        clear()
+        audioQueued.removeAll()
+        playedQueue.removeAll()
+    }
+
     func addSavedToPlayedQueue(withSavedUrl url: URL, mediaInfo: SALockScreenInfo?) {
         playedQueue.append(SAAudioQueueItem(loc: .saved, url: url, mediaInfo: mediaInfo))
     }
@@ -92,8 +98,6 @@ extension SAPlayer {
     public func startSavedAudioWithPrevQueue(withSavedUrl url: URL, mediaInfo: SALockScreenInfo? = nil) {
         // Get access to file before init player
         // TODO remove access after stop playing
-//        let res = url.startAccessingSecurityScopedResource()
-//        print("startAccessingSecurityScopedResource", res)
         startSavedAudio(withSavedUrl: url, mediaInfo: mediaInfo)
         addSavedToPlayedQueue(withSavedUrl: url, mediaInfo: mediaInfo)
     }

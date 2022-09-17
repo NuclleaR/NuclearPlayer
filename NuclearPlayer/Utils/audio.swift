@@ -36,7 +36,7 @@ struct TrackInfo {
         self.title = url.lastPathComponent
         self.artist = ""
 
-        print(url.lastPathComponent, metadataList)
+        print(url.lastPathComponent, metadataList.count)
 
         for item in metadataList {
             switch item.identifier {

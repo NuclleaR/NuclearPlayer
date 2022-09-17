@@ -16,11 +16,10 @@ import RealmSwift
 class NowPlayingViewModel: ObservableObject {
 
     @Published private(set) var track: Track?
-    @Published private(set) var playlist: Playlist?
+    @Published private(set) var tracks: List<Track>
 
     @Published private(set) var trackInfo: TrackInfo?
     @Published private(set) var isPlaying: Bool = false
-    @Published private(set) var playedQueue: [URL] = []
 
     @Published private(set) var isPlaylistOpened: Bool = false
 
@@ -33,38 +32,51 @@ class NowPlayingViewModel: ObservableObject {
     private var elapsedId: UInt?
 
     private let player = SAPlayer.shared
+    private var realmCtrl: RealmController
 
-    private init() {
-#if DEBUG
-        SAPlayer.shared.DEBUG_MODE = true
-#endif
+    var isEditing: Bool = false
 
-            // TODO Move this logic to do in background
-        $track.compactMap({ $0?.bookmarkData })
+    private init(realmCtrl: RealmController) {
+        self.realmCtrl = realmCtrl
+        let playerState = PlayerState.getState(realm: realmCtrl.realm)
+        position = playerState.position
+        tracks = playerState.tracks
+        track = playerState.track
+
+        // TODO Move this logic to do in background
+        $track
+            .dropFirst(1)
+            .handleEvents(receiveOutput: { track in
+                PlayerState.update(ctrl: realmCtrl, position: 0, trackId: track?.id)
+            })
+            .compactMap({ $0?.bookmarkData })
             .map({ URLUtils.restoreURLFromData(bookmarkData: $0) })
             .map { url in
                 return TrackInfo(url: url)
             }.assign(to: \.trackInfo, on: self)
             .store(in: &cancellable)
 
-        $playlist.map { playlist in
-            return playlist?.tracks
-        }.sink { tracks in
-            if tracks.isNilOrEmpty {
-                self.player.clear()
+        $tracks
+            .dropFirst(1)
+            .sink { tracks in
+            if tracks.count == 0 {
+                self.player.reset()
             } else {
-                self.initQueeue(with: tracks!)
+                self.initQueeue(with: tracks)
             }
-        }.store(in: &cancellable)
-
-        $position.sink { val in
-            print("Position", val)
-//            player.seekTo(seconds: val)
+            // side effect write to DB
+            PlayerState.update(ctrl: realmCtrl, position: 0, tracks: tracks)
         }.store(in: &cancellable)
 
         subscribeToAudioQueue()
         subscribeToElapsedTime()
         subscribeToPlayingStatus()
+        if playerState.tracks.count > 0 {
+            restoreQueeue()
+        }
+#if DEBUG
+        SAPlayer.shared.DEBUG_MODE = true
+#endif
     }
 
     func handleControls(_ action: PlayerAction) {
@@ -74,8 +86,8 @@ class NowPlayingViewModel: ObservableObject {
         case .Pause:
             player.pause()
         case .Next:
-            player.next()
             if player.audioQueued.count > 0 {
+                player.next()
                 track = getTrackFromPlaylist(with: player.playedQueue.last?.url)
             }
         case .Prev:
@@ -83,8 +95,8 @@ class NowPlayingViewModel: ObservableObject {
                 player.seekTo(seconds: 0)
                 return
             }
-            player.prev()
-            if playedQueue.count > 1 {
+            if player.playedQueue.count > 1 {
+                player.prev()
                 track = getTrackFromPlaylist(with: player.playedQueue.last?.url)
             }
         case .Repeat: break
@@ -99,8 +111,8 @@ class NowPlayingViewModel: ObservableObject {
     }
 
     func playNext() {
-        player.next()
         if player.audioQueued.count > 0 {
+            player.next()
             track = getTrackFromPlaylist(with: player.playedQueue.last?.url)
         }
     }
@@ -113,16 +125,19 @@ class NowPlayingViewModel: ObservableObject {
         isPlayerOpened.toggle()
     }
 
-    func seekTo(_ position: Double) {
+    func seekToPosition() {
         player.seekTo(seconds: position)
     }
 
     func setPlayQueue(with playlist: Playlist) {
-        self.playlist = playlist
-        self.track = playlist.tracks.first
+        tracks = playlist.tracks
+        player.play()
     }
 
     private func initQueeue(with tracks: List<Track>) {
+        // Reset player queue
+        player.reset()
+        // and start new
         tracks.enumerated().forEach { (index, track) in
             guard let urlData = track.bookmarkData else { return }
 
@@ -136,7 +151,39 @@ class NowPlayingViewModel: ObservableObject {
             }
         }
 
-        player.play()
+        track = tracks.first
+    }
+
+    private func restoreQueeue() {
+        print("Restore queue")
+        // Reset player queue
+        player.reset()
+        // and start new
+        if let data = track?.bookmarkData {
+            URLUtils.withAcess(to: data) { url in
+                let mediaInfo = getSALockScreenInfo(url: url)
+                player.startSavedAudio(withSavedUrl: url, mediaInfo: mediaInfo)
+            }
+        }
+
+        var mutch = false
+
+        tracks.forEach { (track) in
+            guard let urlData = track.bookmarkData else { return }
+
+            URLUtils.withAcess(to: urlData) { url in
+                let mediaInfo = getSALockScreenInfo(url: url)
+                if self.track.isPresent && !mutch {
+                    player.addSavedToPlayedQueue(withSavedUrl: url, mediaInfo: mediaInfo)
+                    if self.track?.id == track.id {
+                        mutch = true
+                    }
+                } else {
+                    player.queueSavedAudio(withSavedUrl: url, mediaInfo: mediaInfo)
+                }
+            }
+        }
+        player.seekTo(seconds: position)
     }
 
     private func subscribeToPlayingStatus() {
@@ -148,6 +195,7 @@ class NowPlayingViewModel: ObservableObject {
                 self.isPlaying = true
             case .paused:
                 self.isPlaying = false
+                PlayerState.update(ctrl: self.realmCtrl, position: self.position)
             case .buffering:
                 break
             case .ended:
@@ -160,22 +208,22 @@ class NowPlayingViewModel: ObservableObject {
         queueId = SAPlayer.Updates.AudioQueue.subscribe { [weak self] forthcomingPlaybackUrl in
             // TODO Check if file exists before play
             // If no - remove from library and notify user
-
             guard let self = self else { return }
-            self.track = self.playlist?.tracks.first(where: { $0.url == forthcomingPlaybackUrl.lastPathComponent })
+            self.track = self.tracks.first(where: { $0.url == forthcomingPlaybackUrl.lastPathComponent })
         }
     }
 
     private func subscribeToElapsedTime() {
-        elapsedId = SAPlayer.Updates.ElapsedTime.subscribe { [weak self] (position) in
-            self?.position = position
+        elapsedId = SAPlayer.Updates.ElapsedTime.subscribe { (position) in
+            if !self.isEditing {
+                self.position = position
+            }
         }
     }
 
     private func getTrackFromPlaylist(with url: URL?) -> Track? {
         guard let filename = url?.lastPathComponent else { return nil }
-        print(filename)
-        return playlist?.tracks.first(where: { $0.url == filename })
+        return tracks.first(where: { $0.url == filename })
     }
-    static let shared = NowPlayingViewModel()
+    static let shared = NowPlayingViewModel(realmCtrl: RealmController.instance)
 }

@@ -15,7 +15,6 @@
 		0616507328BE28E6003726D7 /* ControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0616507228BE28E6003726D7 /* ControlsView.swift */; };
 		0616507A28BE5098003726D7 /* SwiftAudioPlayer in Frameworks */ = {isa = PBXBuildFile; productRef = 0616507928BE5098003726D7 /* SwiftAudioPlayer */; };
 		0616507D28BE50D6003726D7 /* LibrarySync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0616507C28BE50D6003726D7 /* LibrarySync.swift */; };
-		061650B228BE7829003726D7 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061650B128BE7829003726D7 /* Persistence.swift */; };
 		061650B428BEBC20003726D7 /* PlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061650B328BEBC20003726D7 /* PlaylistView.swift */; };
 		061650CD28BF95ED003726D7 /* audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061650CC28BF95ED003726D7 /* audio.swift */; };
 		061650CF28C00D15003726D7 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061650CE28C00D15003726D7 /* ToolbarView.swift */; };
@@ -47,6 +46,7 @@
 		0666FE2328CE910A00728634 /* NumbersExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE2228CE910A00728634 /* NumbersExt.swift */; };
 		0666FE2728CFA63500728634 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE2628CFA63500728634 /* Constants.swift */; };
 		0666FE2A28D0E54F00728634 /* NamespaceEnv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666FE2928D0E54F00728634 /* NamespaceEnv.swift */; };
+		067FB81F28D527FD00C9D586 /* PlayerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067FB81E28D527FD00C9D586 /* PlayerState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,7 +58,6 @@
 		0616506F28BE2869003726D7 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		0616507228BE28E6003726D7 /* ControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlsView.swift; sourceTree = "<group>"; };
 		0616507C28BE50D6003726D7 /* LibrarySync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrarySync.swift; sourceTree = "<group>"; };
-		061650B128BE7829003726D7 /* Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		061650B328BEBC20003726D7 /* PlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistView.swift; sourceTree = "<group>"; };
 		061650CC28BF95ED003726D7 /* audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = audio.swift; sourceTree = "<group>"; };
 		061650CE28C00D15003726D7 /* ToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
@@ -87,6 +86,7 @@
 		0666FE2628CFA63500728634 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0666FE2928D0E54F00728634 /* NamespaceEnv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceEnv.swift; sourceTree = "<group>"; };
 		0666FE2B28D1E9B600728634 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		067FB81E28D527FD00C9D586 /* PlayerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,7 +179,6 @@
 		0616508628BE715E003726D7 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				061650B128BE7829003726D7 /* Persistence.swift */,
 				0666FE0028C5177700728634 /* RealmController.swift */,
 			);
 			path = Storage;
@@ -190,6 +189,7 @@
 			children = (
 				0666FDFE28C512A000728634 /* Track.swift */,
 				0666FE0428CA5B9900728634 /* Playlist.swift */,
+				067FB81E28D527FD00C9D586 /* PlayerState.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -375,10 +375,10 @@
 				0666FE2128CE3E1700728634 /* MiniPlayerView.swift in Sources */,
 				0666FE1B28CCB95800728634 /* TracksViewModel.swift in Sources */,
 				0666FDEC28C5077300728634 /* PlaylistsView.swift in Sources */,
-				061650B228BE7829003726D7 /* Persistence.swift in Sources */,
 				0666FE1928CCA66800728634 /* types.swift in Sources */,
 				061650CF28C00D15003726D7 /* ToolbarView.swift in Sources */,
 				0666FE1528CC8C7700728634 /* OptionalExt.swift in Sources */,
+				067FB81F28D527FD00C9D586 /* PlayerState.swift in Sources */,
 				0616506228BE277E003726D7 /* NuclearPlayerApp.swift in Sources */,
 				0666FE1D28CCC00800728634 /* PlaylistsViewModel.swift in Sources */,
 				0666FE0C28CB444F00728634 /* AppBackground.swift in Sources */,
@@ -616,8 +616,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.29.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

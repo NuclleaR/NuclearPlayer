@@ -48,14 +48,20 @@ struct ControlsView: View {
             }
             VStack {
                 Slider(value: $viewModel.position, in: 0...(viewModel.track?.duration ?? 1)) { isChanged in
-                    print("isChanged", isChanged)
+                    if viewModel.isEditing != isChanged {
+                        if viewModel.isEditing {
+                            viewModel.seekToPosition()
+                        }
+                        viewModel.isEditing = isChanged
+                    }
+
                 }
                 HStack{
                     Text(SAPlayer.prettifyTimestamp(viewModel.position))
                         .foregroundColor(.white)
                     Spacer()
                     //Text(SAPlayer.prettifyTimestamp(viewModel.trackInfo?.duration.value) ?? "00:00")
-                    Text("00:00")
+                    Text(SAPlayer.shared.prettyDuration ?? "0:00:00")
                         .foregroundColor(.white)
                 }
             }.padding()
@@ -83,7 +89,6 @@ struct ControlsView: View {
     }
 
     func handleClick(_ action: PlayerAction) {
-        print(action)
         viewModel.handleControls(action)
     }
 }

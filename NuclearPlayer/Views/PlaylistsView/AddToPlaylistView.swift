@@ -66,11 +66,7 @@ struct AddToPlaylistView: View {
 
 struct AddToPlaylist_Previews: PreviewProvider {
     static var previews: some View {
-        AddToPlaylistView({ selection in
-            print("Selection", selection)
-        }, {
-            print("Cancel")
-        })
+        AddToPlaylistView({ selection in}, {})
             .environmentObject(TracksViewModel(realmCtrl: RealmController.previewRealm))
     }
 }
